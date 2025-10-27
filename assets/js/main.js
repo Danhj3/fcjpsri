@@ -83,6 +83,7 @@ const translations = {
                 item3: "Red de egresados global"
             },
             socialWork: {
+                badge: "Nuevo enfoque integral",
                 title: "Licenciatura en Trabajo Social",
                 description:
                     "Diseña intervenciones comunitarias, programas de inclusión y políticas públicas centradas en derechos humanos.",
@@ -448,6 +449,7 @@ const translations = {
                 item3: "Global alumni network"
             },
             socialWork: {
+                badge: "Featured community impact",
                 title: "Bachelor in Social Work",
                 description:
                     "Design community interventions, inclusion programs and public policies centered on human rights.",

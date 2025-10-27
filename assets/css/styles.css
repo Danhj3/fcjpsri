@@ -598,6 +598,24 @@ img {
     box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.12);
 }
 
+.program-card--featured {
+    border: 1px solid rgba(255, 255, 255, 0.36);
+    box-shadow: 0 16px 40px rgba(8, 17, 40, 0.35), inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.05));
+}
+
+.program-card__badge {
+    justify-self: flex-start;
+    padding: 0.35rem 0.75rem;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    background: rgba(255, 255, 255, 0.18);
+    color: var(--color-cloud);
+}
+
 .section--accent .program-card {
     background: rgba(255, 255, 255, 0.08);
     color: var(--color-cloud);
@@ -605,6 +623,12 @@ img {
 
 .program-card__icon {
     font-size: 2rem;
+}
+
+@media (min-width: 992px) {
+    .program-card--featured {
+        grid-column: span 2;
+    }
 }
 
 .program-card h3 {
