@@ -1,5 +1,4 @@
-# fcjpsri
-Pagina de la Facultad de Ciencias juridicas politicas sociales y relaciones internacionales
+
 # FCJPSRI Landing
 
 Sitio web promocional para la Facultad de Ciencias Jurídicas, Políticas, Sociales y Relaciones Internacionales de la Universidad Autónoma Gabriel René Moreno.
