@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Facultad de Ciencias Jurídicas, Políticas, Sociales y Relaciones Internacionales - Universidad Autónoma Gabriel René Moreno">
+    <title>Facultad de Ciencias Jurídicas, Políticas, Sociales y Relaciones Internacionales - UAGRM</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+    <header class="site-header" id="inicio">
+        <div class="container header-layout">
+            <a class="brand" href="#inicio" aria-label="Inicio Facultad Ciencias Jurídicas UAGRM">
+                <span class="brand__acronym">FCJPSRI</span>
+                <span class="brand__name" data-i18n="brand.name">Facultad de Ciencias Jurídicas, Políticas, Sociales y Relaciones Internacionales</span>
+            </a>
+            <div class="header-actions">
+                <div class="language-switcher" role="group" aria-label="Cambiar idioma" data-i18n-aria-label="languageSwitcher.aria">
+                    <button type="button" class="language-switcher__btn is-active" data-language="es" aria-pressed="true">ES</button>
+                    <button type="button" class="language-switcher__btn" data-language="en" aria-pressed="false">EN</button>
+                </div>
+                <nav class="site-nav" aria-label="Principal" data-i18n-aria-label="nav.main">
+                    <button class="site-nav__toggle" type="button" aria-expanded="false" aria-controls="main-menu">
+                        <span class="sr-only" data-i18n="nav.toggleOpen">Abrir menú</span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                    <ul id="main-menu">
+                        <li><a href="#facultad" data-i18n="nav.facultad">La Facultad</a></li>
+                        <li><a href="#programas" data-i18n="nav.programas">Programas</a></li>
+                        <li><a href="#investigacion" data-i18n="nav.investigacion">Investigación</a></li>
+                        <li><a href="#autoridades" data-i18n="nav.autoridades">Autoridades</a></li>
+                        <li><a href="#vida-estudiantil" data-i18n="nav.vida">Vida estudiantil</a></li>
+                        <li><a href="defensas.html" data-i18n="nav.defenses">Defensas</a></li>
+                        <li><a href="#noticias" data-i18n="nav.noticias">Noticias</a></li>
+                        <li><a href="#admisiones" data-i18n="nav.admisiones">Admisiones</a></li>
+                        <li><a href="#contacto" data-i18n="nav.contacto">Contacto</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container hero__layout">
+                <div class="hero__content">
+                    <p class="hero__eyebrow" data-i18n="hero.eyebrow">Universidad Autónoma Gabriel René Moreno</p>
+                    <h1 data-i18n="hero.title">Formamos líderes con visión global y compromiso social.</h1>
+                    <p class="hero__lead" data-i18n="hero.description">La Facultad de Ciencias Jurídicas, Políticas, Sociales y Relaciones Internacionales de la UAGRM impulsa profesionales que transforman la justicia, la diplomacia y la sociedad boliviana con innovación y ética.</p>
+                    <div class="hero__actions">
+                        <a class="btn primary" href="#admisiones" data-i18n="hero.ctaPrimary">Comienza tu postulación</a>
+                        <a class="btn ghost" href="#programas" data-i18n="hero.ctaSecondary">Explora nuestros programas</a>
+                    </div>
+                    <div class="hero__stats" role="list" aria-label="Indicadores clave de la facultad" data-i18n-aria-label="hero.highlightsLabel">
+                        <article class="stat-card" role="listitem">
+                            <h2><span data-counter="7">7</span><span>+</span></h2>
+                            <p data-i18n="hero.highlightPrograms">Programas de grado y posgrado acreditados internacionalmente.</p>
+                        </article>
+                        <article class="stat-card" role="listitem">
+                            <h2><span data-counter="120">120</span><span>+</span></h2>
+                            <p data-i18n="hero.highlightAlliances">Convenios activos con instituciones públicas y privadas del país y el exterior.</p>
+                        </article>
+                        <article class="stat-card" role="listitem">
+                            <h2><span data-counter="35">35</span><span>+</span></h2>
+                            <p data-i18n="hero.highlightProjects">Proyectos de investigación y extensión social vigentes.</p>
+                        </article>
+                    </div>
+                </div>
+                <div class="hero__media" aria-hidden="true">
+                    <div class="orb"></div>
+                    <div class="hero__card">
+                        <h3 data-i18n="hero.featureTitle">Experiencia inmersiva</h3>
+                        <p data-i18n="hero.featureDescription">Clínicas jurídicas, simulaciones diplomáticas y think tank internacional en un solo ecosistema de aprendizaje.</p>
+                    </div>
+                    <div class="hero__card">
+                        <h3 data-i18n="hero.featureTitle2">Red global</h3>
+                        <p data-i18n="hero.featureDescription2">Intercambios en 3 continentes y alianzas con organismos multilaterales.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="facultad">
+            <div class="container two-columns">
+                <div class="section__intro">
+                    <h2 data-i18n="facultad.title">Una facultad a la vanguardia de las ciencias sociales y jurídicas</h2>
+                    <p data-i18n="facultad.description">Integramos la tradición académica con metodologías activas, aprendizaje basado en retos y alianzas estratégicas para brindar experiencias transformadoras. Nuestros claustros están conformados por docentes investigadores, diplomáticos en ejercicio y especialistas con amplia trayectoria profesional.</p>
+                    <div class="pill-group">
+                        <span class="pill" data-i18n="facultad.pill1">Metodologías activas</span>
+                        <span class="pill" data-i18n="facultad.pill2">Clínicas jurídicas</span>
+                        <span class="pill" data-i18n="facultad.pill3">Laboratorio de gobernanza</span>
+                        <span class="pill" data-i18n="facultad.pill4">Think tank internacional</span>
+                    </div>
+                </div>
+                <div class="focus-card">
+                    <h3 data-i18n="facultad.missionTitle">Misión</h3>
+                    <p data-i18n="facultad.mission">Formar profesionales altamente competentes con sentido ético y compromiso con el desarrollo democrático de Bolivia y la región.</p>
+                    <h3 data-i18n="facultad.visionTitle">Visión</h3>
+                    <p data-i18n="facultad.vision">Ser la facultad referente en Latinoamérica en ciencias jurídicas, políticas y relaciones internacionales, reconocida por su impacto social y su innovación académica.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section section--accent" id="programas">
+            <div class="container">
+                <div class="section__header">
+                    <span class="section__eyebrow" data-i18n="programs.eyebrow">Oferta Académica</span>
+                    <h2 data-i18n="programs.title">Programas académicos</h2>
+                    <p data-i18n="programs.lead">Oferta de grado, posgrado y formación continua alineada con los desafíos de un mundo interconectado.</p>
+                </div>
+                <div class="cards-grid">
+                    <article class="program-card">
+                        <div class="program-card__icon" aria-hidden="true">⚖️</div>
+                        <h3 data-i18n="programs.law.title">Derecho</h3>
+                        <p data-i18n="programs.law.description">Plan de estudios con énfasis en litigación oral, derecho comparado y práctica en clínicas legales.</p>
+                        <ul>
+                            <li data-i18n="programs.law.item1">Modalidad presencial y virtual</li>
+                            <li data-i18n="programs.law.item2">Convenios con bufetes y tribunales</li>
+                            <li data-i18n="programs.law.item3">Certificaciones internacionales</li>
+                        </ul>
+                    </article>
+                    <article class="program-card">
+                        <div class="program-card__icon" aria-hidden="true">🏛️</div>
+                        <h3 data-i18n="programs.politics.title">Ciencias Políticas y Gestión Pública</h3>
+                        <p data-i18n="programs.politics.description">Formación integral para diseñar, implementar y evaluar políticas públicas innovadoras.</p>
+                        <ul>
+                            <li data-i18n="programs.politics.item1">Laboratorio de gobierno abierto</li>
+                            <li data-i18n="programs.politics.item2">Simulaciones diplomáticas</li>
+                            <li data-i18n="programs.politics.item3">Prácticas en instituciones públicas</li>
+                        </ul>
+                    </article>
+                    <article class="program-card">
+                        <div class="program-card__icon" aria-hidden="true">🌐</div>
+                        <h3 data-i18n="programs.ir.title">Relaciones Internacionales</h3>
+                        <p data-i18n="programs.ir.description">Competencias para representar al país ante organismos multilaterales y empresas globales.</p>
+                        <ul>
+                            <li data-i18n="programs.ir.item1">Movilidad académica internacional</li>
+                            <li data-i18n="programs.ir.item2">Club de negociación y protocolo</li>
+                            <li data-i18n="programs.ir.item3">Red de egresados global</li>
+                        </ul>
+                    </article>
+                    <article class="program-card">
+                        <div class="program-card__icon" aria-hidden="true">🤝</div>
+                        <h3 data-i18n="programs.socialWork.title">Trabajo Social</h3>
+                        <p data-i18n="programs.socialWork.description">Intervención comunitaria, mediación social y proyectos de desarrollo con enfoque de derechos humanos.</p>
+                        <ul>
+                            <li data-i18n="programs.socialWork.item1">Prácticas en instituciones públicas y ONG</li>
+                            <li data-i18n="programs.socialWork.item2">Laboratorios de innovación social</li>
+                            <li data-i18n="programs.socialWork.item3">Articulación con redes comunitarias</li>
+                        </ul>
+                    </article>
+                    <article class="program-card">
+                        <div class="program-card__icon" aria-hidden="true">🎓</div>
+                        <h3 data-i18n="programs.postgrad.title">Posgrados y Educación Continua</h3>
+                        <p data-i18n="programs.postgrad.description">Maestrías, diplomados y cursos ejecutivos con docentes invitados de América y Europa.</p>
+                        <ul>
+                            <li data-i18n="programs.postgrad.item1">Modalidades híbridas</li>
+                            <li data-i18n="programs.postgrad.item2">Enfoque multidisciplinario</li>
+                            <li data-i18n="programs.postgrad.item3">Networking profesional</li>
+                        </ul>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="investigacion">
+            <div class="container two-columns">
+                <div>
+                    <div class="section__header">
+                        <span class="section__eyebrow" data-i18n="research.eyebrow">Impacto académico</span>
+                        <h2 data-i18n="research.title">Investigación con impacto real</h2>
+                        <p data-i18n="research.description">Impulsamos centros de investigación que generan conocimiento para fortalecer la democracia, los derechos humanos y la gobernanza sostenible.</p>
+                    </div>
+                    <div class="research-list">
+                        <article class="research-card">
+                            <h3 data-i18n="research.observatory.title">Observatorio de Justicia y Derechos Humanos</h3>
+                            <p data-i18n="research.observatory.description">Monitorea procesos judiciales estratégicos, produce informes y brinda asesoría a organizaciones de la sociedad civil.</p>
+                            <a class="link" href="#contacto" data-i18n="research.observatory.cta">Unirme al observatorio</a>
+                        </article>
+                        <article class="research-card">
+                            <h3 data-i18n="research.lab.title">Laboratorio de Políticas Públicas</h3>
+                            <p data-i18n="research.lab.description">Diseña soluciones innovadoras para gobiernos locales y nacionales, incorporando tecnologías cívicas y datos abiertos.</p>
+                            <a class="link" href="#contacto" data-i18n="research.lab.cta">Colaborar como investigador</a>
+                        </article>
+                        <article class="research-card">
+                            <h3 data-i18n="research.center.title">Centro de Estudios Internacionales</h3>
+                            <p data-i18n="research.center.description">Analiza tendencias geopolíticas, comercio exterior y diplomacia cultural con enfoque regional andino-amazónico.</p>
+                            <a class="link" href="#contacto" data-i18n="research.center.cta">Descubrir proyectos activos</a>
+                        </article>
+                    </div>
+                </div>
+                <aside class="impact-card">
+                    <h3 data-i18n="research.metricsTitle">Red de investigación 2024</h3>
+                    <ul>
+                        <li><strong><span data-counter="18">18</span></strong> <span data-i18n="research.metric1">grupos activos de investigación</span></li>
+                        <li><strong><span data-counter="42">42</span></strong> <span data-i18n="research.metric2">publicaciones indexadas</span></li>
+                        <li><strong><span data-counter="28">28</span></strong> <span data-i18n="research.metric3">convenios con think tanks</span></li>
+                    </ul>
+                </aside>
+            </div>
+        </section>
+
+        <section class="section" id="autoridades">
+            <div class="container">
+                <div class="section__header">
+                    <span class="section__eyebrow" data-i18n="leaders.eyebrow">Liderazgo</span>
+                    <h2 data-i18n="leaders.title">Autoridades de la facultad</h2>
+                    <p data-i18n="leaders.description">Conducimos la Facultad de Ciencias Jurídicas, Políticas, Sociales y Relaciones Internacionales con liderazgo cercano, excelencia académica y vocación de servicio público.</p>
+                </div>
+                <div class="leaders-grid">
+                    <article class="leader-card">
+                        <div class="leader-card__portrait" aria-hidden="true"></div>
+                        <div class="leader-card__body">
+                            <h3 data-i18n="leaders.dean.name">Dr. Manuel Sánchez</h3>
+                            <p class="leader-card__role" data-i18n="leaders.dean.role">Decano</p>
+                            <p data-i18n="leaders.dean.bio">Especialista en derecho administrativo y políticas públicas con más de 25 años de experiencia en la UAGRM. Promueve la innovación curricular y el fortalecimiento de la investigación aplicada.</p>
+                            <blockquote data-i18n="leaders.dean.quote">“Nuestra prioridad es formar profesionales que lideren la transformación institucional de Bolivia.”</blockquote>
+                        </div>
+                    </article>
+                    <article class="leader-card">
+                        <div class="leader-card__portrait" aria-hidden="true"></div>
+                        <div class="leader-card__body">
+                            <h3 data-i18n="leaders.vicedean.name">Dr. Adolfo Guerrero</h3>
+                            <p class="leader-card__role" data-i18n="leaders.vicedean.role">Vicedecano</p>
+                            <p data-i18n="leaders.vicedean.bio">Abogado procesalista y mediador certificado. Coordina las clínicas jurídicas, el acompañamiento estudiantil y la articulación con colegios de profesionales del país.</p>
+                            <blockquote data-i18n="leaders.vicedean.quote">“Acompañamos a cada estudiante para que encuentre su vocación de servicio con ética y compromiso social.”</blockquote>
+                        </div>
+                    </article>
+                    <article class="leader-feature">
+                        <div class="leader-feature__content">
+                            <p class="leader-feature__tag" data-i18n="leaders.event.tag">Evento destacado</p>
+                            <h3 data-i18n="leaders.event.title">Presentación del libro “Bolivia Siglo XXI: Mestizaje y Federalización”</h3>
+                            <p class="leader-feature__meta" data-i18n="leaders.event.role">Autor invitado: Dr. Ramón Peralta Martínez</p>
+                            <p data-i18n="leaders.event.description">Docente de la Universidad Complutense de Madrid comparte su análisis sobre el futuro institucional del país junto a las autoridades facultativas.</p>
+                            <ul class="leader-feature__details">
+                                <li data-i18n="leaders.event.date">Miércoles 22 de octubre · 16:00</li>
+                                <li data-i18n="leaders.event.location">Salón auditorio · Unidad de Postgrado</li>
+                            </ul>
+                            <a class="btn outline" href="#noticias" data-i18n="leaders.event.cta">Ver agenda completa</a>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="section section--alt" id="vida-estudiantil">
+            <div class="container two-columns">
+                <div class="section__header">
+                    <span class="section__eyebrow" data-i18n="studentLife.eyebrow">Experiencia UAGRM</span>
+                    <h2 data-i18n="studentLife.title">Vida estudiantil vibrante</h2>
+                    <p data-i18n="studentLife.description">Nuestro campus ofrece espacios de colaboración, liderazgo estudiantil y experiencias internacionales que amplían tu red profesional.</p>
+                </div>
+                <div class="student-experiences">
+                    <article class="experience-card">
+                        <h3 data-i18n="studentLife.clinics.title">Clínicas jurídicas y mediación</h3>
+                        <p data-i18n="studentLife.clinics.description">Atiende casos reales junto a docentes mentores y aporta al acceso a la justicia.</p>
+                    </article>
+                    <article class="experience-card">
+                        <h3 data-i18n="studentLife.mun.title">Modelos de Naciones Unidas</h3>
+                        <p data-i18n="studentLife.mun.description">Participa en delegaciones nacionales e internacionales con preparación diplomática de alto nivel.</p>
+                    </article>
+                    <article class="experience-card">
+                        <h3 data-i18n="studentLife.volunteer.title">Red de voluntariado</h3>
+                        <p data-i18n="studentLife.volunteer.description">Proyectos sociales con enfoque en derechos humanos, transparencia y gobernanza urbana.</p>
+                    </article>
+                </div>
+                <aside class="impact-card">
+                    <h3 data-i18n="studentLife.statsTitle">Impacto estudiantil 2023</h3>
+                    <ul aria-label="Indicadores de impacto estudiantil" data-i18n-aria-label="studentLife.statsAria">
+                        <li><strong><span data-counter="2450">2450</span></strong> <span data-i18n="studentLife.stat1">Estudiantes activos</span></li>
+                        <li><strong><span data-counter="36">36</span></strong> <span data-i18n="studentLife.stat2">Convenios de intercambio</span></li>
+                        <li><strong><span data-counter="58">58</span></strong> <span data-i18n="studentLife.stat3">Proyectos de responsabilidad social</span></li>
+                    </ul>
+                    <a class="btn ghost" href="defensas.html" data-i18n="studentLife.defensesLink">Explorar defensas de grado</a>
+                </aside>
+            </div>
+        </section>
+
+        <section class="section" id="noticias">
+            <div class="container">
+                <div class="section__header">
+                    <span class="section__eyebrow" data-i18n="news.eyebrow">Agenda pública</span>
+                    <h2 data-i18n="news.title">Noticias y eventos destacados</h2>
+                    <p data-i18n="news.description">Entérate de las actividades académicas, foros internacionales y logros de nuestra comunidad.</p>
+                </div>
+                <div class="news-grid">
+                    <article class="news-card">
+                        <span class="news-card__tag" data-i18n="news.card1.tag">Foro Internacional</span>
+                        <h3 data-i18n="news.card1.title">Diálogo regional sobre Estado de Derecho y transformación digital</h3>
+                        <time data-i18n="news.card1.date">15 de junio 2024</time>
+                        <p data-i18n="news.card1.description">Expertos de 10 países compartirán buenas prácticas en justicia digital y participación ciudadana.</p>
+                        <a class="link" href="#contacto" data-i18n="news.card1.cta">Reservar plaza</a>
+                    </article>
+                    <article class="news-card">
+                        <span class="news-card__tag" data-i18n="news.card2.tag">Investigación</span>
+                        <h3 data-i18n="news.card2.title">Publicación del índice de transparencia municipal</h3>
+                        <time data-i18n="news.card2.date">28 de mayo 2024</time>
+                        <p data-i18n="news.card2.description">El laboratorio de políticas públicas presenta resultados y recomendaciones para gobiernos locales.</p>
+                        <a class="link" href="#contacto" data-i18n="news.card2.cta">Descargar resumen ejecutivo</a>
+                    </article>
+                    <article class="news-card">
+                        <span class="news-card__tag" data-i18n="news.card3.tag">Vida Estudiantil</span>
+                        <h3 data-i18n="news.card3.title">Delegación UAGRM gana premio en Modelo ONU de Washington</h3>
+                        <time data-i18n="news.card3.date">2 de abril 2024</time>
+                        <p data-i18n="news.card3.description">Reconocimiento a la mejor estrategia diplomática y documento de posición.</p>
+                        <a class="link" href="#contacto" data-i18n="news.card3.cta">Leer crónica completa</a>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="section section--accent" id="admisiones">
+            <div class="container two-columns">
+                <div>
+                    <div class="section__header">
+                        <span class="section__eyebrow" data-i18n="admissions.eyebrow">Proceso 2024</span>
+                        <h2 data-i18n="admissions.title">Admisiones y acompañamiento</h2>
+                        <p data-i18n="admissions.description">Te acompañamos en cada etapa de tu postulación con asesoría personalizada, orientación vocacional y mentorías de integración.</p>
+                    </div>
+                    <ol class="steps">
+                        <li>
+                            <h3 data-i18n="admissions.step1.title">1. Orientación vocacional personalizada</h3>
+                            <p data-i18n="admissions.step1.description">Agenda una reunión con nuestros asesores y descubre el programa ideal para ti.</p>
+                        </li>
+                        <li>
+                            <h3 data-i18n="admissions.step2.title">2. Postulación en línea</h3>
+                            <p data-i18n="admissions.step2.description">Completa tu solicitud, adjunta documentos y programa tu entrevista virtual.</p>
+                        </li>
+                        <li>
+                            <h3 data-i18n="admissions.step3.title">3. Integración a la comunidad UAGRM</h3>
+                            <p data-i18n="admissions.step3.description">Participa en el bootcamp de bienvenida, mentorías y actividades de networking.</p>
+                        </li>
+                    </ol>
+                </div>
+                <form class="form-card" id="admissions-form" novalidate>
+                    <h3 data-i18n="admissions.form.title">Agenda una cita informativa</h3>
+                    <label for="name" data-i18n="admissions.form.nameLabel">Nombre completo</label>
+                    <input type="text" id="name" name="name" required placeholder="Ej. Carla Fernández" data-i18n-placeholder="admissions.form.namePlaceholder">
+                    <label for="program" data-i18n="admissions.form.programLabel">Programa de interés</label>
+                    <select id="program" name="program" required data-i18n-placeholder="admissions.form.programPlaceholder">
+                        <option value="" selected hidden data-i18n="admissions.form.programPlaceholder">Selecciona una opción</option>
+                        <option value="law" data-i18n="admissions.form.optionLaw">Derecho</option>
+                        <option value="politics" data-i18n="admissions.form.optionPolitics">Ciencias Políticas y Gestión Pública</option>
+                        <option value="ir" data-i18n="admissions.form.optionIR">Relaciones Internacionales</option>
+                        <option value="social-work" data-i18n="admissions.form.optionSocialWork">Trabajo Social</option>
+                        <option value="postgrad" data-i18n="admissions.form.optionPostgrad">Posgrado</option>
+                    </select>
+                    <label for="email" data-i18n="admissions.form.emailLabel">Correo institucional o personal</label>
+                    <input type="email" id="email" name="email" required placeholder="Ej. nombre@correo.com" data-i18n-placeholder="admissions.form.emailPlaceholder">
+                    <label for="message" data-i18n="admissions.form.messageLabel">Mensaje</label>
+                    <textarea id="message" name="message" rows="3" placeholder="Cuéntanos tus expectativas" data-i18n-placeholder="admissions.form.messagePlaceholder"></textarea>
+                    <button type="submit" class="btn primary" data-i18n="admissions.form.submit">Solicitar información</button>
+                    <p class="form-card__feedback" role="status" aria-live="polite"></p>
+                </form>
+            </div>
+        </section>
+
+        <section class="section" id="alianzas">
+            <div class="container">
+                <div class="section__header">
+                    <span class="section__eyebrow" data-i18n="alliances.eyebrow">Colaboraciones</span>
+                    <h2 data-i18n="alliances.title">Alianzas estratégicas</h2>
+                    <p data-i18n="alliances.description">Colaboramos con instituciones que potencian experiencias académicas, prácticas profesionales y proyectos de impacto global.</p>
+                </div>
+                <div class="alliances-grid">
+                    <article class="alliance-card">
+                        <h3 data-i18n="alliances.card1.title">Organismos multilaterales</h3>
+                        <p data-i18n="alliances.card1.description">Convenios con la OEA, CAF y PNUD para pasantías, investigación aplicada y foros regionales.</p>
+                    </article>
+                    <article class="alliance-card">
+                        <h3 data-i18n="alliances.card2.title">Sector público</h3>
+                        <p data-i18n="alliances.card2.description">Programas de asistencia técnica para ministerios, asambleas departamentales y gobiernos municipales.</p>
+                    </article>
+                    <article class="alliance-card">
+                        <h3 data-i18n="alliances.card3.title">Empresas y ONG</h3>
+                        <p data-i18n="alliances.card3.description">Prácticas profesionales y clínicas sociales con empresas de impacto y organizaciones de derechos humanos.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="section section--alt" id="contacto">
+            <div class="container two-columns">
+                <div>
+                    <div class="section__header">
+                        <span class="section__eyebrow" data-i18n="contact.eyebrow">Conversemos</span>
+                        <h2 data-i18n="contact.title">Contacto e información</h2>
+                        <p data-i18n="contact.description">Estamos listos para acompañarte en tu proceso de formación y vinculación con nuestra comunidad académica.</p>
+                    </div>
+                    <ul class="contact-list">
+                        <li>
+                            <span>📍</span>
+                            <div>
+                                <strong data-i18n="contact.addressLabel">Dirección</strong>
+                                <p data-i18n="contact.address">Campus Universitario, Av. Centenario, Santa Cruz de la Sierra</p>
+                            </div>
+                        </li>
+                        <li>
+                            <span>☎️</span>
+                            <div>
+                                <strong data-i18n="contact.phoneLabel">Teléfonos</strong>
+                                <p>+591 3 336 1234 · +591 3 336 5678</p>
+                            </div>
+                        </li>
+                        <li>
+                            <span>✉️</span>
+                            <div>
+                                <strong data-i18n="contact.emailLabel">Correo</strong>
+                                <p>facultad.juridicas@uagrm.edu.bo</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="map-card">
+                    <h3 data-i18n="contact.mapTitle">Visítanos en la UAGRM</h3>
+                    <p data-i18n="contact.mapDescription">La Facultad se ubica junto al boulevard central y cuenta con acceso a bibliotecas, laboratorios multimedia y salas de audiencias simuladas.</p>
+                    <a class="btn outline" href="https://www.google.com/maps/place/Universidad+Aut%C3%B3noma+Gabriel+Ren%C3%A9+Moreno" target="_blank" rel="noopener" data-i18n="contact.mapCta">Ver mapa interactivo</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-layout">
+            <p data-i18n="footer.rights">© <span id="current-year"></span> Facultad de Ciencias Jurídicas, Políticas, Sociales y Relaciones Internacionales · UAGRM</p>
+            <nav aria-label="Redes sociales">
+                <ul class="social-links">
+                    <li><a href="https://www.facebook.com" target="_blank" rel="noopener">Facebook</a></li>
+                    <li><a href="https://www.instagram.com" target="_blank" rel="noopener">Instagram</a></li>
+                    <li><a href="https://www.youtube.com" target="_blank" rel="noopener">YouTube</a></li>
+                </ul>
+            </nav>
+        </div>
+    </footer>
+
+    <script src="assets/js/main.js"></script>
+</body>
+</html>
