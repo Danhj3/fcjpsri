@@ -120,7 +120,7 @@ const translations = {
             description:
                 "Conducimos la Facultad de Ciencias Jurídicas, Políticas, Sociales y Relaciones Internacionales con liderazgo cercano, excelencia académica y vocación de servicio público.",
             dean: {
-                name: "Dr. Manuel Sánchez",
+                name: "Dr. Marcos Sánchez",
                 role: "Decano",
                 bio: "Especialista en derecho administrativo y políticas públicas con más de 25 años de experiencia en la UAGRM. Promueve la innovación curricular y el fortalecimiento de la investigación aplicada.",
                 quote: "“Nuestra prioridad es formar profesionales que lideren la transformación institucional de Bolivia.”"
@@ -384,7 +384,7 @@ const translations = {
             description:
                 "We steward the Faculty of Legal, Political, Social Sciences and International Relations with close leadership, academic excellence and public service vocation.",
             dean: {
-                name: "Dr. Manuel Sánchez",
+                name: "Dr. Marcos Sánchez",
                 role: "Dean",
                 bio: "Expert in administrative law and public policy with more than 25 years at UAGRM. He drives curricular innovation and applied research.",
                 quote: "“Our priority is to train professionals who lead Bolivia's institutional transformation.”"
