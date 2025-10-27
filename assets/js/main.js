@@ -19,8 +19,7 @@ const translations = {
             vida: "Vida estudiantil",
             noticias: "Noticias",
             admisiones: "Admisiones",
-            contacto: "Contacto",
-            defenses: "Defensas"
+            contacto: "Contacto"
         },
         languageSwitcher: {
             aria: "Cambiar idioma"
@@ -82,14 +81,6 @@ const translations = {
                 item2: "Club de negociación y protocolo",
                 item3: "Red de egresados global"
             },
-            socialWork: {
-                title: "Trabajo Social",
-                description:
-                    "Intervención comunitaria, mediación social y diseño de políticas inclusivas con enfoque de derechos humanos.",
-                item1: "Prácticas inmersivas en instituciones públicas y ONG",
-                item2: "Laboratorios de innovación y justicia social",
-                item3: "Acompañamiento a redes comunitarias y territoriales"
-            },
             postgrad: {
                 title: "Posgrados y Educación Continua",
                 description: "Maestrías, diplomados y cursos ejecutivos con docentes invitados de América y Europa.",
@@ -129,7 +120,7 @@ const translations = {
             description:
                 "Conducimos la Facultad de Ciencias Jurídicas, Políticas, Sociales y Relaciones Internacionales con liderazgo cercano, excelencia académica y vocación de servicio público.",
             dean: {
-                name: "Dr. Marcos Sánchez",
+                name: "Dr. Manuel Sánchez",
                 role: "Decano",
                 bio: "Especialista en derecho administrativo y políticas públicas con más de 25 años de experiencia en la UAGRM. Promueve la innovación curricular y el fortalecimiento de la investigación aplicada.",
                 quote: "“Nuestra prioridad es formar profesionales que lideren la transformación institucional de Bolivia.”"
@@ -172,90 +163,7 @@ const translations = {
             statsAria: "Indicadores de impacto estudiantil",
             stat1: "Estudiantes activos",
             stat2: "Convenios de intercambio",
-            stat3: "Proyectos de responsabilidad social",
-            defensesLink: "Explorar defensas de grado"
-        },
-        defensesPage: {
-            hero: {
-                eyebrow: "Defensas de grado",
-                title: "Calendario de defensas de grado FCJPSRI",
-                description:
-                    "Consulta fechas, tribunales y lineamientos para presentar tu trabajo final con excelencia académica.",
-                ctaPrimary: "Regresar a admisiones",
-                ctaSecondary: "Ver cronograma",
-                highlightTitle: "Próxima defensa",
-                highlightDescription: "15 de julio · Auditorio de Posgrado · Tribunal multidisciplinario",
-                highlightTitle2: "Documentación requerida",
-                highlightDescription2: "Acta de revisión, carta de tribunal y formato de presentación digital."
-            },
-            schedule: {
-                eyebrow: "Próximas defensas",
-                title: "Cronograma del próximo trimestre",
-                description:
-                    "Organiza tu preparación revisando los detalles de las defensas programadas entre julio y septiembre.",
-                law: {
-                    tag: "Derecho",
-                    title: "Reforma procesal penal en delitos económicos complejos",
-                    candidate: "Tesista: María Fernanda Rojas",
-                    date: "15 de julio · 09:00",
-                    room: "Auditorio Central FCJPSRI",
-                    tribunal: "Tribunal: Dr. Marcos Sánchez · Dra. Teresa Aguilera · Msc. Julio Arce",
-                    cta: "Descargar resumen ejecutivo"
-                },
-                politics: {
-                    tag: "Ciencias Políticas",
-                    title: "Innovación pública y gobierno abierto en municipios amazónicos",
-                    candidate: "Tesista: Luis Alberto Medina",
-                    date: "26 de julio · 11:00",
-                    room: "Sala de Audiencias Simuladas",
-                    tribunal: "Tribunal: Dra. Paola Gutiérrez · Dr. Álvaro Román · Lic. Patricia Soliz",
-                    cta: "Descargar agenda de defensa"
-                },
-                socialWork: {
-                    tag: "Trabajo Social",
-                    title: "Redes comunitarias para la prevención de violencia de género",
-                    candidate: "Tesista: Daniela Cuéllar Suárez",
-                    date: "8 de agosto · 15:30",
-                    room: "Laboratorio de Innovación Social",
-                    tribunal: "Tribunal: Lic. Andrea Flores · Msc. Rodrigo Maldonado · Dra. Jimena Vargas",
-                    cta: "Descargar ficha metodológica"
-                }
-            },
-            resources: {
-                eyebrow: "Recursos oficiales",
-                title: "Lineamientos y plantillas para tu defensa",
-                description:
-                    "Accede a documentos actualizados para preparar tu presentación, cumplir requisitos y gestionar trámites administrativos.",
-                guidelines: {
-                    title: "Guía metodológica",
-                    description:
-                        "Pasos para la redacción del informe final, formato de citas y recomendaciones de defensa presencial o virtual.",
-                    cta: "Descargar guía en PDF"
-                },
-                templates: {
-                    title: "Plantillas institucionales",
-                    description:
-                        "Portadas, diapositivas y actas de conformidad en formato editable para mantener la identidad de la facultad.",
-                    cta: "Descargar kit editable"
-                },
-                repository: {
-                    title: "Repositorio de defensas",
-                    description:
-                        "Consulta defensas destacadas de los últimos cinco años para inspirar tu proyecto y fortalecer referencias.",
-                    cta: "Visitar repositorio"
-                }
-            },
-            support: {
-                eyebrow: "Acompañamiento",
-                title: "Asesoría académica y logística",
-                description:
-                    "Solicita revisión de borradores, simulacros de defensa y apoyo para la gestión de salas, equipos y transmisión en vivo.",
-                item1: "Mentorías personalizadas con docentes especialistas",
-                item2: "Coordinación de agenda con tribunal y dirección de carrera",
-                item3: "Soporte técnico para presentaciones híbridas",
-                contact: "¿Necesitas soporte adicional?",
-                cta: "Contactar a secretaría de facultad"
-            }
+            stat3: "Proyectos de responsabilidad social"
         },
         news: {
             eyebrow: "Agenda pública",
@@ -285,9 +193,9 @@ const translations = {
         },
         admissions: {
             eyebrow: "Proceso 2024",
-            title: "Admisiones y acompañamiento",
+            title: "Admisiones y becas",
             description:
-                "Te acompañamos en cada etapa de tu postulación con asesoría personalizada, orientación vocacional y mentorías de integración.",
+                "Te acompañamos en cada etapa de tu postulación. Accede a becas por excelencia académica, liderazgo y proyectos de impacto social.",
             step1: {
                 title: "1. Orientación vocacional personalizada",
                 description: "Agenda una reunión con nuestros asesores y descubre el programa ideal para ti."
@@ -309,7 +217,6 @@ const translations = {
                 optionLaw: "Derecho",
                 optionPolitics: "Ciencias Políticas y Gestión Pública",
                 optionIR: "Relaciones Internacionales",
-                optionSocialWork: "Trabajo Social",
                 optionPostgrad: "Posgrado",
                 emailLabel: "Correo institucional o personal",
                 emailPlaceholder: "Ej. nombre@correo.com",
@@ -353,15 +260,7 @@ const translations = {
             mapCta: "Ver mapa interactivo"
         },
         footer: {
-            description: "Formamos líderes con visión global que transforman la justicia, la diplomacia y el tejido social de Bolivia.",
-            navTitle: "Explorar",
-            resourcesTitle: "Recursos",
-            contactTitle: "Contacto",
-            defenses: "Portal de defensas de grado",
-            research: "Agenda de investigación",
-            news: "Noticias y eventos",
-            transparency: "Transparencia institucional",
-            rights: "© {year} Facultad de Ciencias Jurídicas, Políticas, Sociales y Relaciones Internacionales · UAGRM · Todos los derechos reservados"
+            rights: "© {year} Facultad de Ciencias Jurídicas, Políticas, Sociales y Relaciones Internacionales · UAGRM"
         }
     },
     en: {
@@ -384,8 +283,7 @@ const translations = {
             vida: "Student life",
             noticias: "News",
             admisiones: "Admissions",
-            contacto: "Contact",
-            defenses: "Defenses"
+            contacto: "Contact"
         },
         languageSwitcher: {
             aria: "Switch language"
@@ -447,14 +345,6 @@ const translations = {
                 item2: "Negotiation & protocol club",
                 item3: "Global alumni network"
             },
-            socialWork: {
-                title: "Social Work",
-                description:
-                    "Community engagement, social mediation and inclusive policy design grounded in human rights.",
-                item1: "Immersive fieldwork with public agencies and NGOs",
-                item2: "Social innovation and justice labs",
-                item3: "Support for community and territorial networks"
-            },
             postgrad: {
                 title: "Graduate & Executive Education",
                 description: "Master's degrees, diplomas and executive courses with visiting faculty from the Americas and Europe.",
@@ -494,7 +384,7 @@ const translations = {
             description:
                 "We steward the Faculty of Legal, Political, Social Sciences and International Relations with close leadership, academic excellence and public service vocation.",
             dean: {
-                name: "Dr. Marcos Sánchez",
+                name: "Dr. Manuel Sánchez",
                 role: "Dean",
                 bio: "Expert in administrative law and public policy with more than 25 years at UAGRM. He drives curricular innovation and applied research.",
                 quote: "“Our priority is to train professionals who lead Bolivia's institutional transformation.”"
@@ -537,90 +427,7 @@ const translations = {
             statsAria: "Student impact indicators",
             stat1: "Active students",
             stat2: "Exchange agreements",
-            stat3: "Social responsibility projects",
-            defensesLink: "Browse thesis defenses"
-        },
-        defensesPage: {
-            hero: {
-                eyebrow: "Thesis defenses",
-                title: "FCJPSRI thesis defense calendar",
-                description:
-                    "Review dates, committees and guidelines to deliver your final project with academic excellence.",
-                ctaPrimary: "Back to admissions",
-                ctaSecondary: "View schedule",
-                highlightTitle: "Next defense",
-                highlightDescription: "July 15 · Graduate Auditorium · Multidisciplinary committee",
-                highlightTitle2: "Required documents",
-                highlightDescription2: "Review report, committee confirmation and digital presentation format."
-            },
-            schedule: {
-                eyebrow: "Upcoming defenses",
-                title: "Schedule for the next quarter",
-                description:
-                    "Plan ahead by checking details for defenses scheduled between July and September.",
-                law: {
-                    tag: "Law",
-                    title: "Procedural reform for complex economic crimes",
-                    candidate: "Candidate: María Fernanda Rojas",
-                    date: "July 15 · 9:00 a.m.",
-                    room: "FCJPSRI Main Auditorium",
-                    tribunal: "Committee: Dr. Marcos Sánchez · Dr. Teresa Aguilera · MSc. Julio Arce",
-                    cta: "Download executive summary"
-                },
-                politics: {
-                    tag: "Political Science",
-                    title: "Public innovation and open government in Amazonian municipalities",
-                    candidate: "Candidate: Luis Alberto Medina",
-                    date: "July 26 · 11:00 a.m.",
-                    room: "Mock Hearing Room",
-                    tribunal: "Committee: Dr. Paola Gutiérrez · Dr. Álvaro Román · Lic. Patricia Soliz",
-                    cta: "Download defense agenda"
-                },
-                socialWork: {
-                    tag: "Social Work",
-                    title: "Community networks to prevent gender-based violence",
-                    candidate: "Candidate: Daniela Cuéllar Suárez",
-                    date: "August 8 · 3:30 p.m.",
-                    room: "Social Innovation Lab",
-                    tribunal: "Committee: Lic. Andrea Flores · MSc. Rodrigo Maldonado · Dr. Jimena Vargas",
-                    cta: "Download methodology brief"
-                }
-            },
-            resources: {
-                eyebrow: "Official resources",
-                title: "Guidelines and templates for your defense",
-                description:
-                    "Access up-to-date documents to prepare your presentation, meet requirements and manage administrative procedures.",
-                guidelines: {
-                    title: "Methodology guide",
-                    description:
-                        "Steps for drafting the final report, citation format and tips for in-person or virtual defenses.",
-                    cta: "Download PDF guide"
-                },
-                templates: {
-                    title: "Institutional templates",
-                    description:
-                        "Cover pages, slide decks and compliance forms in editable formats aligned with the faculty brand.",
-                    cta: "Download editable kit"
-                },
-                repository: {
-                    title: "Defense repository",
-                    description:
-                        "Browse outstanding defenses from the last five years to inspire your project and strengthen references.",
-                    cta: "Visit repository"
-                }
-            },
-            support: {
-                eyebrow: "Support",
-                title: "Academic and logistics advising",
-                description:
-                    "Request draft reviews, mock defenses and assistance with room booking, equipment and live streaming.",
-                item1: "One-on-one mentoring with faculty experts",
-                item2: "Schedule coordination with the committee and program chairs",
-                item3: "Technical support for hybrid presentations",
-                contact: "Need additional support?",
-                cta: "Contact the faculty office"
-            }
+            stat3: "Social responsibility projects"
         },
         news: {
             eyebrow: "Public agenda",
@@ -650,9 +457,9 @@ const translations = {
         },
         admissions: {
             eyebrow: "2024 Process",
-            title: "Admissions & support",
+            title: "Admissions & scholarships",
             description:
-                "We guide you through each stage of your application with personalized advising, vocational guidance and integration mentoring.",
+                "We guide you throughout the application process. Access scholarships for academic excellence, leadership and social impact initiatives.",
             step1: {
                 title: "1. Personalized vocational guidance",
                 description: "Schedule a meeting with our advisors and find the ideal program for you."
@@ -674,7 +481,6 @@ const translations = {
                 optionLaw: "Law",
                 optionPolitics: "Political Science & Public Management",
                 optionIR: "International Relations",
-                optionSocialWork: "Social Work",
                 optionPostgrad: "Graduate studies",
                 emailLabel: "Institutional or personal email",
                 emailPlaceholder: "e.g. name@email.com",
@@ -718,15 +524,7 @@ const translations = {
             mapCta: "Open interactive map"
         },
         footer: {
-            description: "We shape globally minded leaders who transform justice, diplomacy and Bolivia's social fabric.",
-            navTitle: "Explore",
-            resourcesTitle: "Resources",
-            contactTitle: "Contact",
-            defenses: "Degree defense portal",
-            research: "Research agenda",
-            news: "News & events",
-            transparency: "Institutional transparency",
-            rights: "© {year} Faculty of Legal, Political, Social Sciences & International Relations · UAGRM · All rights reserved"
+            rights: "© {year} Faculty of Legal, Political, Social Sciences & International Relations · UAGRM"
         }
     }
 };
