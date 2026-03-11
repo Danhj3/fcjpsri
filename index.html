@@ -85,7 +85,7 @@
           <!-- Lado Izquierdo: Inputs (Poblacional y Territorial) -->
           <div class="lg:col-span-4 space-y-4 w-full min-w-0 relative">
              
-             <!-- Totales (AHORA SIN STICKY para evitar solapamiento con botones) -->
+             <!-- Totales (sin sticky) -->
              <div class="bg-white rounded-2xl border border-slate-200 p-4 shadow-soft">
                 <div class="flex items-center gap-3 mb-3 border-b border-slate-100 pb-3">
                    <div class="h-7 w-7 rounded-full bg-gradient-to-br from-brand-fuchsia to-brand-orange flex items-center justify-center text-white font-bold text-xs shadow-md">1</div>
@@ -129,7 +129,7 @@
                  <!-- Inyectado via JS -->
              </div>
 
-             <!-- Botones de acción (siempre visibles) -->
+             <!-- Botones de acción -->
              <div class="flex flex-col gap-3 mt-6 mb-8">
                  <button onclick="simulate()" class="btn-simular shadow-xl">
                     <span>PROCESAR NOMBRES</span>
@@ -145,7 +145,7 @@
           <!-- Lado Derecho: Resultados -->
           <div class="lg:col-span-8 space-y-4 sm:space-y-6 min-w-0">
              
-             <!-- Gráfico con altura responsiva -->
+             <!-- Gráfico -->
              <div class="card-base relative flex flex-col justify-center items-center bg-white overflow-hidden p-0 sm:p-6 min-h-[280px] sm:min-h-[350px]">
                 <div class="w-full px-4 pt-4 pb-0 sm:p-0 sm:absolute sm:top-6 sm:left-6 flex flex-col z-10">
                    <h3 class="font-extrabold text-base sm:text-xl text-slate-900">Composición Dptal. (28 Escaños)</h3>
@@ -166,7 +166,7 @@
                 </div>
              </div>
 
-             <!-- ASAMBLEÍSTAS ELECTOS -->
+             <!-- ASAMBLEÍSTAS ELECTOS (incluye Gobernador y Vicegobernador) -->
              <div id="winners-card" class="card-base hidden animate-fade-in w-full border-t-4 border-t-emerald-500">
                  
                  <div class="mb-4 flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-4">
@@ -179,13 +179,21 @@
                      </div>
                  </div>
 
-                 <!-- Grid Poblacionales (responsive 2 columnas) -->
+                 <!-- Gobernador y Vicegobernador -->
+                 <div class="mb-6">
+                     <h4 class="font-bold text-xs text-slate-400 uppercase tracking-widest mb-3 bg-amber-50 py-1 px-2 rounded inline-block text-amber-600">Gobernador y Vicegobernador</h4>
+                     <div class="bg-amber-50 p-4 rounded-xl border border-amber-200 flex flex-col sm:flex-row sm:items-center gap-4" id="governor-container">
+                         <!-- Se llena dinámicamente -->
+                     </div>
+                 </div>
+
+                 <!-- Grid Poblacionales -->
                  <div class="mb-6">
                      <h4 class="font-bold text-xs text-slate-400 uppercase tracking-widest mb-3 bg-slate-50 py-1 px-2 rounded inline-block">Proporcionales (8 Escaños)</h4>
                      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3" id="winners-grid-pop"></div>
                  </div>
 
-                 <!-- Grid Territoriales (responsive 2/3 columnas) -->
+                 <!-- Grid Territoriales -->
                  <div>
                      <h4 class="font-bold text-xs text-slate-400 uppercase tracking-widest mb-3 bg-orange-50 py-1 px-2 rounded inline-block text-brand-orange">Territoriales (15 Escaños)</h4>
                      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3" id="winners-grid-terr"></div>
@@ -222,10 +230,242 @@
   </main>
 
 <script>
-    // --- EMBEDDED DATABASE ---
+    // --- BASE DE DATOS COMPLETA EXTRAÍDA DE Libro1.xlsx (solo titulares) ---
     window.candidatesDB = {
+        'LIBRE': {
+            GOBERNADOR: 'JUAN PABLO VELASCO DALENCE',
+            VICEGOBERNADOR: 'JESSICA PAOLA AGUIRRE MELGAR',
+            TERRITORIAL: {
+                'Andrés Ibáñez': 'BERTINO YGNACIO VARGAS SALAZAR',
+                'Ignacio Warnes': 'CECILIA ARTEAGA PAZ', // Warnes -> Ignacio Warnes
+                'José Miguel de Velasco': 'NATASHA CASTEDO MELLO', // Velasco -> José Miguel de Velasco
+                'Ichilo': 'MAIRA VEIZAGA QUISBERTH',
+                'Chiquitos': 'PAOLA ANDREA TORRICO MONTERO',
+                'Sara': 'JAVIER TABORGA RIBERA',
+                'Cordillera': 'MARCELO VILLAGRA QUISPE',
+                'Vallegrande': 'MAVY DARINKA PEDRAZA',
+                'Florida': 'JULISSA GICELA MENACHO HUANCA',
+                'Obispo Santistevan': 'DAVID MACHACA AJHUACHO', // Obispo Santistéban -> Obispo Santistevan
+                'Ñuflo de Chávez': 'CARLOS DAVID YABETA HURTADO', // Ñuflo De Chávez -> Ñuflo de Chávez
+                'Ángel Sandoval': 'LUIS MIGUEL CARRACEDO RUIZ', // Angel Sandoval -> Ángel Sandoval
+                'Manuel María Caballero': 'NOELIA GUZMAN PEREZ',
+                'Germán Busch': 'LUIS ANTONIO DELGADILLO SALAZAR',
+                'Guarayos': 'CAROLA VACA CESPEDES'
+            },
+            POBLACIONAL: {
+                1: 'MARIA RENE ALVAREZ CAMACHO',
+                2: 'LUIS ALBERTO RUIZ GUERRERO',
+                3: 'NOEMI LILY PINTO VILLAGOMEZ',
+                4: 'JOSE MAURICIO JIMENEZ LINARES',
+                5: 'KEILA FERNANDA GARCIA MILHOMEN',
+                6: 'LUIS CARLOS AGUILAR CRUZ',
+                7: 'ALCIRA NINETHS TORREZ PEREZ',
+                8: 'MARCELO ENDHIR TERRAZAS RIVERO'
+            }
+        },
+        'A-UPP': {
+            GOBERNADOR: 'EDUARDO PEREIRA ALCOCER',
+            VICEGOBERNADOR: 'ARMINDOL MUÑOZ GUZMAN',
+            TERRITORIAL: {
+                'Ignacio Warnes': 'LAVIVE MULLER GALARZA',
+                'Chiquitos': 'JHONNY SORIA HINOJOSA',
+                'Obispo Santistevan': 'GUEBY MELVY INCA COYO',
+                'Guarayos': 'ELISABETH ORTIZ URACOI'
+            },
+            POBLACIONAL: {
+                1: 'ROLANDO AMERICO ENRIQUEZ CUELLAR',
+                2: 'SOFIA MALLCU YAPURA',
+                3: 'FRANK REYNALDO EZEQUIEL PANIAGUA'
+            }
+        },
+        'SPT': {
+            GOBERNADOR: 'OTTO ANDRES RITTER MENDEZ',
+            VICEGOBERNADOR: 'DIANEY NICOLE CABA FERREIRA',
+            TERRITORIAL: {
+                'Andrés Ibáñez': 'GIOVANA JUDITH PEREZ SANCHEZ',
+                'José Miguel de Velasco': 'MAIDA PEÑA JUSTINIANO',
+                'Ichilo': 'GALO ADRIAN GASPAR',
+                'Chiquitos': 'SILVIA FLORES VIRUEZ',
+                'Sara': 'MARIA KASSANDRA CHAVEZ',
+                'Cordillera': 'ARTURO ROSADO',
+                'Vallegrande': 'JOSE CABRERA FLORES',
+                'Obispo Santistevan': 'INES MEDRANO BRETON',
+                'Ñuflo de Chávez': 'ESTEFANI BRIZED CALA GUZMAN',
+                'Ángel Sandoval': 'DENNY CARLOS VELARDE VILLARROEL',
+                'Manuel María Caballero': 'GENMANIES ROJAS ROJAS',
+                'Germán Busch': 'DANIEL SUAREZ ARCE',
+                'Guarayos': 'MARIO ARONI HERRERA'
+            },
+            POBLACIONAL: {
+                1: 'VICTOR HUGO MENDEZ STELZER',
+                2: 'MARIE MEDLEN ANTELO DABDOUB',
+                3: 'MARCO ANTONIO BARBOZA BARBA',
+                4: 'LILIBETH COIMBRA PEÑA',
+                5: 'ANTONIO ROBERTO PAZ CHAVEZ',
+                6: 'CLAUDIA ALIDA SALAS TAMBARE',
+                7: 'GERARDO RAUL PEREYRA MOLINA',
+                8: 'ANA SUSANA LARREA STACHER'
+            }
+        },
+        'PDC': {
+            GOBERNADOR: 'MAURICIO QUEZADA MOSTAJO',
+            VICEGOBERNADOR: 'ERIKA HEDWIG OROZA WERNER',
+            TERRITORIAL: {
+                'Andrés Ibáñez': 'JUAN JOSE ANTELO LANGUIDEY',
+                'Ignacio Warnes': 'STEPHANIE MARIEL VELASCO DORADO',
+                'José Miguel de Velasco': 'GUISELA BEATRIZ MITA CARBAJAL',
+                'Chiquitos': 'MIGUEL ANGEL LOPEZ BRESS',
+                'Vallegrande': 'PEDRO VARGAS FIGUEROA',
+                'Obispo Santistevan': 'JUANA REINA MORON MUÑOZ',
+                'Ñuflo de Chávez': 'MARIA LAURA VILLARROEL RIBERA',
+                'Ángel Sandoval': 'JUAN CARLOS SARMIENTO MAMANI',
+                'Manuel María Caballero': 'JUANITO ROJAS ASTETE'
+            },
+            POBLACIONAL: {
+                1: 'SONIA LOPEZ FLORES',
+                2: 'JOSE CARRASCO PEÑA',
+                3: 'LIDIA MARIBEL CASTILLO NOGALES',
+                4: 'FELIX AVALOS CUETO',
+                5: 'VIVIAN PEÑA LANDIVAR'
+            }
+        },
+        'TODOS-': {
+            GOBERNADOR: 'MIGUEL CADIMA CASTRO',
+            VICEGOBERNADOR: 'JACINTO HERRERA HUANCA',
+            TERRITORIAL: {
+                'Andrés Ibáñez': 'YAQUELINE MARGHOT SUCA VILLARROEL',
+                'Ignacio Warnes': 'MACARIO CAMACHO BALDERRAMA',
+                'Cordillera': 'MARIANO ARTURO CABALLERO ANDUIRA',
+                'Florida': 'SINFOROSO MAMANI VALENCIA',
+                'Obispo Santistevan': 'LIMBER GUAMAN SOTO',
+                'Ñuflo de Chávez': 'SILVIA MARIBEL ALVAREZ MARTINEZ',
+                'Guarayos': 'SOLEDAD TORREZ VALVERDE'
+            },
+            POBLACIONAL: {
+                1: 'ANYELO GERARDO CESPEDES MIRANDA',
+                2: 'NOEMI RIVERA SEÑA',
+                3: 'ALFREDO VILACAGUA HUALLATA',
+                4: 'ALINA CANAVIRI SULLCANI',
+                5: 'WILSON GARCIA ROJAS',
+                6: 'MARIA ESTRELLITA MARTINEZ SANDOVAL',
+                7: 'MARCELINA SERRUDO PEÑARANDA'
+            }
+        },
+        'DEMOCRATAS': {
+            GOBERNADOR: 'BRANKO GORAN MARINKOVIC JOVICEVIC',
+            VICEGOBERNADOR: 'ROGER MARIO CASTELLON SAUCEDO',
+            TERRITORIAL: {
+                'Andrés Ibáñez': 'OSCAR URENDA GONZALEZ',
+                'Ignacio Warnes': 'DANIELA AYALA DURAN',
+                'José Miguel de Velasco': 'MARINA EUGENIA SALAZAR CABRERA',
+                'Ichilo': 'ROSALIA GRANDE CRUZ',
+                'Chiquitos': 'FLAVIO ULISES PESOA JUSTINIANO',
+                'Sara': 'CARLOS ERWIN ARIAS EGUEZ',
+                'Cordillera': 'MARGOTH MIRIAM SEGOVIA',
+                'Vallegrande': 'ERNESTO VILLAGOMEZ ROSSEL',
+                'Florida': 'CELESTINA BONILLA PEÑA',
+                'Obispo Santistevan': 'MAICO WALTER MORENO VACA',
+                'Ñuflo de Chávez': 'VERONICA PAREDES SALVA',
+                'Ángel Sandoval': 'WENDY DANIELA MEDINA JIMENEZ',
+                'Manuel María Caballero': 'JENNY QUIROZ CESPEDES',
+                'Germán Busch': 'ASIS AGUILERA PETZOLD',
+                'Guarayos': 'RODOLFO VEGA PEREZ'
+            },
+            POBLACIONAL: {
+                1: 'ZEILA YESENIA ARANCIBIA PINEDO',
+                2: 'RUBEN COSTAS VINCENTI',
+                3: 'VANESSA MAMANI RAMIREZ',
+                4: 'EDGAR MARCELO CRUZ ECHEVERRIA',
+                5: 'DAYANA YRAGHUA ORELLANA',
+                6: 'ROY FERNANDO LOPEZ GOMEZ',
+                7: 'PEREGRINA QUINTANILLA CORREA',
+                8: 'RICHARD VIRREIRA ROCHA'
+            }
+        },
+        'MTS': {
+            GOBERNADOR: 'CHI HYUN CHUNG',
+            VICEGOBERNADOR: 'ERIC HUMBERTO PEINADO MENDEZ',
+            TERRITORIAL: {
+                'Andrés Ibáñez': 'GRETTA ANAI MENACHO HEREDIA',
+                'Ignacio Warnes': 'TIBURCIO OVIDIO MERIDA',
+                'Ichilo': 'ALEJANDRA GUERRA BARRIGA',
+                'Obispo Santistevan': 'MARTHA OLGUIN BERBO',
+                'Manuel María Caballero': 'JESUS NOEL SOTO CRUZ'
+            },
+            POBLACIONAL: {
+                1: 'MARIA ANELIN SUAREZ VELASQUEZ',
+                2: 'FIDEL WILLIAM AGUILAR TORREZ',
+                3: 'SOLIMAR CARMEN VEIZAGA ROCHA',
+                4: 'ALFREDO SAUCEDO AYALA'
+            }
+        },
+        'FE': {
+            GOBERNADOR: 'VLADIMIR ARIEL PEÑA VIRHUEZ',
+            VICEGOBERNADOR: 'MARIELA PANIAGUA VACA DIEZ',
+            TERRITORIAL: {
+                'Andrés Ibáñez': 'MANUEL COPA SANTOS',
+                'Ignacio Warnes': 'ANGELICA MENDEZ',
+                'Ichilo': 'FAVIO ARANCIBIA BONIFAS',
+                'Chiquitos': 'DARLING MENDEZ MONTERO',
+                'Sara': 'ROSA JUSTINIANO ZABALA',
+                'Cordillera': 'FRANK YAHIR BANEGAS FLORES',
+                'Vallegrande': 'MARIA ELENA MENACHO GUERRA',
+                'Florida': 'GINA ELIZABETH ROCA GONZALES',
+                'Ñuflo de Chávez': 'ALEXANDER FERNANDEZ UÑOJA',
+                'Guarayos': 'NATIVIDAD ALMENDRAS SAAVEDRA'
+            },
+            POBLACIONAL: {
+                1: 'MARIA JOSE SALAZAR OROZA',
+                2: 'CARLOS RAMIRO CORDOVA MOGRO',
+                3: 'KATHERINE PLATTERS MURGUIA',
+                4: 'RUBEN CORONADO JORA'
+            }
+        },
+        'NGP': {
+            GOBERNADOR: 'JULIO CESAR TORREZ TAPIA',
+            VICEGOBERNADOR: 'JULIO CESAR ALFARO DURAN',
+            TERRITORIAL: {
+                'Andrés Ibáñez': 'JOSE LUIS MOLLINEDO KOYA',
+                'Ignacio Warnes': 'ROSELIN LEIDIMARX ROSSEL MENACHO',
+                'José Miguel de Velasco': 'YANETH ARDAYA SOLIZ',
+                'Ichilo': 'IVER JAIRO GOMEZ LA FUENTE',
+                'Chiquitos': 'DESIREE LUCIANA OPIMI PETERS',
+                'Sara': 'ANA PAOLA COROMECHI ABAYO',
+                'Cordillera': 'WILBERT JAMAL ABUJDER GUZMAN',
+                'Florida': 'BLADIMIR HERVAS MAMANI',
+                'Obispo Santistevan': 'NANCY PARRA GARCIA',
+                'Ñuflo de Chávez': 'PAULINO SANCHEZ MAMANI',
+                'Manuel María Caballero': 'JUANITO VARGAS ANDIA',
+                'Guarayos': 'ROBERTO CARDOZO MAMANI'
+            },
+            POBLACIONAL: {
+                1: 'WIDENZ LEON BOUTIER',
+                2: 'ANDREA MICHELLE PORCEL MILAN',
+                3: 'ELIZABETH MARISOL TIZON CARREON',
+                4: 'RODOLFO APOSTOL MIRANDA SANCHEZ'
+            }
+        },
         'CREEMOS-PATRIA': {
-            'POBLACIONAL': {
+            GOBERNADOR: 'LUIS FERNANDO CAMACHO VACA',
+            VICEGOBERNADOR: 'ZVONKO MATKOVIC RIBERA',
+            TERRITORIAL: {
+                'Andrés Ibáñez': 'OSCAR CHARLES MICHEL FLORES',
+                'Ignacio Warnes': 'JOSE ARTURO JUSTINIANO SANCHEZ',
+                'José Miguel de Velasco': 'YELLY BALDIVIESO MAYSER',
+                'Ichilo': 'ROSTAN MARIEL RIOS HEVARA',
+                'Chiquitos': 'BLANCA RUTH TERRAZAS BARBA',
+                'Sara': 'CARLOS MARCELO AROSTEGUI RIBERA',
+                'Cordillera': 'HECTOR CONTRERAS ALVAREZ',
+                'Vallegrande': 'OSCAR CRUZ ZELAYA',
+                'Florida': 'EDUARDO HURTADO LINO',
+                'Obispo Santistevan': 'MARIA PILAR VILLARROEL GUTIERREZ',
+                'Ñuflo de Chávez': 'MIRIAM ELIZABETH CAHUASIRI SANCHEZ',
+                'Ángel Sandoval': 'CARLA ANDREA CARREÑO DE LUQUE',
+                'Manuel María Caballero': 'DABEIBA GUTIERREZ FAREL',
+                'Germán Busch': 'ALEX ANTELO EL HAGE',
+                'Guarayos': 'VERENA URAZA YAPUQUENDA'
+            },
+            POBLACIONAL: {
                 1: 'RONY MAURICIO JUSTINIANO MAYSER',
                 2: 'FLAVIA ARIANE ARIAS ROMERO',
                 3: 'OSCAR NELSON FEENEY KRAUSE',
@@ -234,27 +474,31 @@
                 6: 'MARTHA CECILIA GUTIERREZ PAZ',
                 7: 'JULIO CESAR PESSOA VIERA',
                 8: 'MOIRA PATRICIA VERAZAIN ROCA'
-            },
-            'TERRITORIAL': {
-                'Andrés Ibáñez': 'OSCAR CHARLES MICHEL FLORES',
-                'Ángel Sandoval': 'CARLA ANDREA CARREÑO DE LUQUE',
-                'Chiquitos': 'BLANCA RUTH TERRAZAS BARBA',
-                'Cordillera': 'HECTOR CONTRERAS ALVAREZ',
-                'Florida': 'EDUARDO HURTADO LINO'
             }
         },
-        'DEMOCRATAS': { 'POBLACIONAL': { 1: 'BRANKO GORAN MARINKOVIC JOVICEVIC' } },
-        'SPT': { 'POBLACIONAL': { 1: 'OTTO ANDRES RITTER MENDEZ' } },
-        'A-UPP': { 'POBLACIONAL': { 1: 'EDUARDO PEREIRA ALCOCER' } },
-        'FE': { 'POBLACIONAL': { 1: 'VLADIMIR ARIEL PEÑA VIRHUEZ' } },
-        'LIBRE': { 'POBLACIONAL': { 1: 'JUAN PABLO VELASCO DALENCE' } },
-        'MTS': { 'POBLACIONAL': { 1: 'CHI HYUN CHUNG' } },
-        'NGP': { 'POBLACIONAL': { 1: 'JULIO CESAR TORREZ TAPIA' } },
-        'PDC': { 'POBLACIONAL': { 1: 'MAURICIO QUEZADA MOSTAJO' } },
-        'PSC': { 'POBLACIONAL': { 1: 'GUIDO EDUARDO NAYAR PARADA' } },
-        'TODOS': { 'POBLACIONAL': { 1: 'MIGUEL CADIMA CASTRO' } }
+        'PSC': {
+            GOBERNADOR: 'GUIDO EDUARDO NAYAR PARADA',
+            VICEGOBERNADOR: 'JOSE ANTONIO ALBERTI UZQUEDA',
+            TERRITORIAL: {
+                'Andrés Ibáñez': 'ISRAEL ALCOCER CANDIA',
+                'Ignacio Warnes': 'MARIA INES IBAÑEZ PAZ',
+                'José Miguel de Velasco': 'JORGE ANIBAL CHAVEZ HURTADO',
+                'Cordillera': 'ESPERANZA RIBERA BARBA',
+                'Vallegrande': 'ANA LIA ZURITA VEIZAGA',
+                'Obispo Santistevan': 'ELIZABETH CELENE CORDOVA OLGUIN',
+                'Ñuflo de Chávez': 'CLAUDIA MORENO JUSTINIANO',
+                'Manuel María Caballero': 'ISRAEL ARANA CLAURE'
+            },
+            POBLACIONAL: {
+                1: 'PATRICIA CAHUANA BARROZO',
+                2: 'LAURA ILONKA FRANCO CRESPO',
+                3: 'JOSE LUIS BARRANCOS ESCOBAR',
+                4: 'MARYSOL JUSTINIANO VACA'
+            }
+        }
     };
 
+    // Lista de provincias (exactamente como se usan en la interfaz)
     const PROVINCIAS = [
         "Andrés Ibáñez", "Ángel Sandoval", "Chiquitos", "Cordillera", 
         "Florida", "Germán Busch", "Guarayos", "Ichilo", "Ignacio Warnes", 
@@ -262,6 +506,7 @@
         "Obispo Santistevan", "Sara", "Vallegrande"
     ];
 
+    // Partidos con colores (incluyendo todos los de la base)
     const initialParties = [
         { sigla: 'CREEMOS-PATRIA', color: '#c026d3' },
         { sigla: 'DEMOCRATAS', color: '#16a34a' },
@@ -273,7 +518,7 @@
         { sigla: 'NGP', color: '#ea580c' },
         { sigla: 'PDC', color: '#059669' },
         { sigla: 'PSC', color: '#7c3aed' },
-        { sigla: 'TODOS', color: '#475569' }
+        { sigla: 'TODOS-', color: '#475569' }
     ];
 
     const state = {
@@ -285,7 +530,6 @@
         initData();
         window.addEventListener('resize', () => {
             if (!document.getElementById('placeholder-state').classList.contains('hidden')) return;
-            // Redibujar canvas si hay datos
             const seatList = getCurrentSeatList();
             if (seatList) drawParliamentResponsive(seatList);
         });
@@ -318,11 +562,21 @@
         }
     }
 
+    // Función para obtener nombre de la base de datos
     function getNameFromDB(sigla, type, key) {
-        if(window.candidatesDB[sigla] && window.candidatesDB[sigla][type] && window.candidatesDB[sigla][type][key]) {
-            return window.candidatesDB[sigla][type][key];
+        const party = window.candidatesDB[sigla];
+        if (!party) return `Candidato ${type} (${sigla})`;
+        if (type === 'GOBERNADOR') return party.GOBERNADOR || `Gobernador (${sigla})`;
+        if (type === 'VICEGOBERNADOR') return party.VICEGOBERNADOR || `Vicegobernador (${sigla})`;
+        if (type === 'POBLACIONAL') {
+            if (party.POBLACIONAL && party.POBLACIONAL[key]) return party.POBLACIONAL[key];
+            return `Asambleísta Poblacional ${key} (${sigla})`;
         }
-        return `Asambleísta ${type === 'POBLACIONAL' ? 'Poblacional' : 'Territorial'} ${key} (${sigla})`;
+        if (type === 'TERRITORIAL') {
+            if (party.TERRITORIAL && party.TERRITORIAL[key]) return party.TERRITORIAL[key];
+            return `Asambleísta Territorial ${key} (${sigla})`;
+        }
+        return `Candidato (${sigla})`;
     }
 
     function updatePercent(sigla, val) {
@@ -537,6 +791,20 @@
             return;
         }
 
+        // Determinar partido ganador de la gobernación (el de mayor %)
+        let governorParty = null;
+        let maxPercent = -1;
+        activeCandidates.forEach(c => {
+            if (c.percent > maxPercent) {
+                maxPercent = c.percent;
+                governorParty = c.sigla;
+            }
+        });
+
+        const governorName = governorParty ? getNameFromDB(governorParty, 'GOBERNADOR', null) : null;
+        const viceName = governorParty ? getNameFromDB(governorParty, 'VICEGOBERNADOR', null) : null;
+        const governorColor = governorParty ? state.candidates.find(x => x.sigla === governorParty).color : null;
+
         const POP_SEATS = 8;
         const resultData = dhondtWithMatrix(state.candidates, POP_SEATS);
         const popWinnersData = resultData.matrixData.filter(q => q.isWinner).sort((a,b) => a.seatNumber - b.seatNumber);
@@ -564,6 +832,21 @@
         document.getElementById('winners-card').classList.remove('hidden');
         
         document.getElementById('total-seats-number').innerText = 28;
+
+        // Mostrar Gobernador y Vicegobernador
+        const governorContainer = document.getElementById('governor-container');
+        if (governorName) {
+            governorContainer.innerHTML = `
+                <div class="flex-shrink-0 w-12 h-12 rounded-full bg-amber-200 flex items-center justify-center text-amber-800 font-black text-xl">G</div>
+                <div class="min-w-0 flex-1">
+                    <p class="text-xs uppercase font-bold text-amber-600 mb-1 flex items-center gap-1.5"><span class="w-2 h-2 rounded-full inline-block" style="background:${governorColor}"></span>${governorParty}</p>
+                    <p class="font-bold text-base sm:text-lg text-slate-800 leading-tight">${governorName}</p>
+                    ${viceName ? `<p class="text-sm text-slate-600 mt-1">Vice: ${viceName}</p>` : ''}
+                </div>
+            `;
+        } else {
+            governorContainer.innerHTML = `<p class="text-sm text-slate-400 italic">No se ha definido gobernador (sin porcentajes de voto).</p>`;
+        }
 
         document.getElementById('winners-grid-pop').innerHTML = listPop.map(w => `
             <div class="bg-white p-3 rounded-xl border border-fuchsia-100 shadow-sm flex items-center gap-3">
