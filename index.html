@@ -92,19 +92,26 @@
                 <div id="input-error" class="hidden mb-3 rounded-lg bg-rose-50 border border-rose-200 p-2 text-xs text-rose-700">
                     <span class="font-bold"><i class="fa-solid fa-triangle-exclamation"></i> Error:</span> <span id="error-detail"></span>
                 </div>
-                <div class="grid grid-cols-2 gap-3">
-                    <div class="bg-slate-50 rounded-xl p-3 border border-slate-100 flex flex-col justify-center items-center">
-                        <span class="text-[9px] sm:text-[10px] text-slate-500 uppercase font-bold tracking-wider mb-0.5">Escrutado (%)</span>
-                        <span id="total-percent-display" class="text-lg sm:text-xl font-black text-slate-700">0%</span>
+                
+                <!-- Tres Columnas: Válidos, Emitidos, Territorio -->
+                <div class="grid grid-cols-3 gap-2 sm:gap-3">
+                    <div class="bg-blue-50 rounded-xl p-2 sm:p-3 border border-blue-100 flex flex-col justify-center items-center text-center">
+                        <span class="text-[8px] sm:text-[9px] text-blue-500 uppercase font-bold tracking-wider mb-0.5" title="Suma de todos los partidos">Válidos</span>
+                        <span id="total-validos-display" class="text-sm sm:text-lg font-black text-blue-700 truncate w-full">0</span>
                     </div>
-                    <div class="bg-orange-50 rounded-xl p-3 border border-orange-100 flex flex-col justify-center items-center">
-                        <span class="text-[9px] sm:text-[10px] text-orange-600 uppercase font-bold tracking-wider mb-0.5">Territorio</span>
-                        <span id="terr-sum-display" class="text-lg sm:text-xl font-black text-brand-orange">0/15 Prov.</span>
+                    <div class="bg-slate-50 rounded-xl p-2 sm:p-3 border border-slate-200 flex flex-col justify-center items-center text-center">
+                        <span class="text-[8px] sm:text-[9px] text-slate-500 uppercase font-bold tracking-wider mb-0.5" title="Válidos + Blancos + Nulos">Emitidos</span>
+                        <span id="total-emitidos-display" class="text-sm sm:text-lg font-black text-slate-700 truncate w-full">0</span>
+                    </div>
+                    <div class="bg-orange-50 rounded-xl p-2 sm:p-3 border border-orange-100 flex flex-col justify-center items-center text-center">
+                        <span class="text-[8px] sm:text-[9px] text-orange-600 uppercase font-bold tracking-wider mb-0.5">Territorio</span>
+                        <span id="terr-sum-display" class="text-sm sm:text-lg font-black text-brand-orange">0/15</span>
                     </div>
                 </div>
+
                 <div class="flex rounded-lg bg-slate-100 p-1 mt-4">
                     <button onclick="switchTab('votos')" id="tab-votos" class="flex-1 py-2 text-xs font-bold rounded-md bg-white text-brand-fuchsia shadow-sm transition-all">
-                        % Poblacional
+                        Votos Poblacional
                     </button>
                     <button onclick="switchTab('provincias')" id="tab-provincias" class="flex-1 py-2 text-xs font-bold rounded-md text-slate-500 hover:text-brand-orange transition-all">
                         15 Provincias
@@ -490,7 +497,9 @@
 
     const state = {
         candidates: [],
-        provWinners: {} 
+        provWinners: {},
+        blancos: '',
+        nulos: ''
     };
 
     // Variables globales para los últimos ganadores (usadas en el gráfico)
@@ -512,9 +521,11 @@
     function initData() {
         state.candidates = [];
         initialParties.forEach(p => {
-            state.candidates.push({ sigla: p.sigla, percent: '', color: p.color });
+            state.candidates.push({ sigla: p.sigla, votos: '', color: p.color });
         });
         PROVINCIAS.forEach(prov => state.provWinners[prov] = '');
+        state.blancos = '';
+        state.nulos = '';
         renderVotos();
         renderProvincias();
         updateTotals();
@@ -554,14 +565,19 @@
         return `Candidato (${sigla})`;
     }
 
-    function updatePercent(sigla, val) {
+    function updateVotos(sigla, val) {
         const c = state.candidates.find(x => x.sigla === sigla);
         if(c) {
-            c.percent = val === '' ? '' : parseFloat(val);
-            if(c.percent < 0) c.percent = 0;
-            if(c.percent > 100) c.percent = 100;
+            c.votos = val === '' ? '' : parseInt(val, 10);
+            if(c.votos < 0) c.votos = 0;
             updateTotals();
         }
+    }
+
+    function updateBlancosNulos(tipo, val) {
+        state[tipo] = val === '' ? '' : parseInt(val, 10);
+        if(state[tipo] < 0) state[tipo] = 0;
+        updateTotals();
     }
 
     function updateProvWinner(provincia, sigla) {
@@ -570,37 +586,60 @@
     }
 
     function updateTotals() {
-        const sumPerc = state.candidates.reduce((a,b)=>a+(parseFloat(b.percent)||0),0);
+        const sumValidos = state.candidates.reduce((a,b) => a + (parseInt(b.votos) || 0), 0);
+        const b = parseInt(state.blancos) || 0;
+        const n = parseInt(state.nulos) || 0;
+        const sumEmitidos = sumValidos + b + n;
+
         let sumProv = 0;
         Object.values(state.provWinners).forEach(val => { if(val !== '') sumProv++; });
         
-        const percDisplay = document.getElementById('total-percent-display');
-        const terrDisplay = document.getElementById('terr-sum-display');
-        
-        const formattedSum = sumPerc % 1 === 0 ? sumPerc : sumPerc.toFixed(2);
-        percDisplay.innerText = `${formattedSum}%`;
-        terrDisplay.innerText = `${sumProv}/15 Prov.`;
-
-        if(sumPerc > 100) percDisplay.className = "text-lg sm:text-xl font-black text-rose-600 animate-pulse";
-        else percDisplay.className = "text-lg sm:text-xl font-black text-slate-700";
+        document.getElementById('total-validos-display').innerText = sumValidos.toLocaleString('es-BO');
+        document.getElementById('total-emitidos-display').innerText = sumEmitidos.toLocaleString('es-BO');
+        document.getElementById('terr-sum-display').innerText = `${sumProv}/15`;
     }
 
     function renderVotos() {
         const container = document.getElementById('votos-container');
-        container.innerHTML = state.candidates.map(c => `
+        let html = state.candidates.map(c => `
             <div class="p-2.5 bg-white rounded-lg border border-slate-200 shadow-sm flex items-center justify-between">
                 <div class="font-extrabold text-[11px] sm:text-xs text-slate-800 flex items-center gap-2">
                     <span class="w-2.5 h-2.5 rounded-full shadow-sm" style="background:${c.color}"></span>
                     ${c.sigla}
                 </div>
-                <div class="flex items-center gap-2 w-24">
-                    <input type="number" step="0.01" min="0" max="100" value="${c.percent}" placeholder="0.0" 
-                           oninput="updatePercent('${c.sigla}', this.value)" 
+                <div class="flex items-center gap-2 w-32 sm:w-40">
+                    <input type="number" step="1" min="0" value="${c.votos}" placeholder="0" 
+                           oninput="updateVotos('${c.sigla}', this.value)" 
                            class="w-full bg-slate-50 border border-slate-200 rounded text-sm font-black px-2 py-1.5 text-right focus:outline-none focus:border-brand-fuchsia text-brand-fuchsia">
-                    <span class="text-xs font-bold text-slate-400">%</span>
+                    <span class="text-[10px] font-bold text-slate-400">votos</span>
                 </div>
             </div>
         `).join('');
+
+        // Agregar campos para Blancos y Nulos
+        html += `
+            <div class="my-2 border-t border-slate-200"></div>
+            <div class="p-2.5 bg-slate-50 rounded-lg border border-slate-200 shadow-sm flex items-center justify-between">
+                <div class="font-extrabold text-[11px] sm:text-xs text-slate-600 pl-2 border-l-4 border-slate-300">Votos Blancos</div>
+                <div class="flex items-center gap-2 w-32 sm:w-40">
+                    <input type="number" step="1" min="0" value="${state.blancos}" placeholder="0" 
+                           oninput="updateBlancosNulos('blancos', this.value)" 
+                           class="w-full bg-white border border-slate-200 rounded text-sm font-black px-2 py-1.5 text-right focus:outline-none focus:border-slate-400 text-slate-600">
+                    <span class="text-[10px] font-bold text-slate-400">votos</span>
+                </div>
+            </div>
+            <div class="p-2.5 bg-slate-50 rounded-lg border border-slate-200 shadow-sm flex items-center justify-between">
+                <div class="font-extrabold text-[11px] sm:text-xs text-slate-600 pl-2 border-l-4 border-slate-300">Votos Nulos</div>
+                <div class="flex items-center gap-2 w-32 sm:w-40">
+                    <input type="number" step="1" min="0" value="${state.nulos}" placeholder="0" 
+                           oninput="updateBlancosNulos('nulos', this.value)" 
+                           class="w-full bg-white border border-slate-200 rounded text-sm font-black px-2 py-1.5 text-right focus:outline-none focus:border-slate-400 text-slate-600">
+                    <span class="text-[10px] font-bold text-slate-400">votos</span>
+                </div>
+            </div>
+        `;
+        
+        container.innerHTML = html;
     }
 
     function renderProvincias() {
@@ -634,7 +673,7 @@
     function dhondtWithMatrix(candidates, seats) {
         let allQuotients = [];
         candidates.forEach(c => {
-            const votes = parseFloat(c.percent) || 0;
+            const votes = parseInt(c.votos) || 0;
             if (votes > 0) {
                 for(let i=1; i<=seats; i++) {
                     allQuotients.push({ 
@@ -685,18 +724,19 @@
             activeCandidates.forEach(c => {
                 const q = matrixData.find(x => x.candidateSigla === c.sigla && x.divisor === i);
                 if(q) {
+                    const formattedValue = q.value.toLocaleString('es-BO', {minimumFractionDigits: 2, maximumFractionDigits: 2});
                     if(q.isWinner) {
                         bodyHtml += `
                         <td class="px-2 py-1 sm:px-3 sm:py-2 border-b border-slate-200 text-center bg-fuchsia-50/80 align-middle">
                             <div class="flex flex-col items-center justify-center">
-                                <div class="font-black text-brand-fuchsia text-xs sm:text-sm tracking-tight">${q.value.toFixed(2)}</div>
+                                <div class="font-black text-brand-fuchsia text-xs sm:text-sm tracking-tight">${formattedValue}</div>
                                 <span class="text-[8px] sm:text-[9px] bg-gradient-to-r from-brand-fuchsia to-brand-pink text-white px-1.5 py-0.5 rounded shadow-sm font-bold uppercase mt-0.5 sm:mt-1 whitespace-nowrap">Escaño ${q.seatNumber}</span>
                             </div>
                         </td>`;
                     } else {
                         bodyHtml += `
                         <td class="px-2 py-2 sm:px-3 sm:py-3 border-b border-slate-100 text-center text-slate-400 font-mono text-[10px] sm:text-xs align-middle">
-                            ${q.value.toFixed(2)}
+                            ${formattedValue}
                         </td>`;
                     }
                 } else {
@@ -738,28 +778,22 @@
     }
 
     function simulate() {
-        const sumPerc = state.candidates.reduce((a,b)=>a+(parseFloat(b.percent)||0),0);
-        if(sumPerc > 100) { 
-            alert("Error: Los votos exceden el 100%. Por favor corrige la carga de datos."); 
-            return; 
-        }
-
-        const activeCandidates = state.candidates.filter(c => parseFloat(c.percent) > 0);
+        const activeCandidates = state.candidates.filter(c => (parseInt(c.votos)||0) > 0);
         let hasData = activeCandidates.length > 0;
         
         PROVINCIAS.forEach(prov => { if(state.provWinners[prov] !== '') hasData = true; });
 
         if(!hasData) {
-            alert("No hay datos cargados. Ingrese % de votos o asigne provincias ganadoras.");
+            alert("No hay datos cargados. Ingrese cantidad de votos o asigne provincias ganadoras.");
             return;
         }
 
-        // Determinar partido ganador de la gobernación (el de mayor %)
+        // Determinar partido ganador de la gobernación (el de mayor cantidad de votos)
         let governorParty = null;
-        let maxPercent = -1;
+        let maxVotos = -1;
         activeCandidates.forEach(c => {
-            if (c.percent > maxPercent) {
-                maxPercent = c.percent;
+            if (c.votos > maxVotos) {
+                maxVotos = c.votos;
                 governorParty = c.sigla;
             }
         });
@@ -812,7 +846,7 @@
                 </div>
             `;
         } else {
-            governorContainer.innerHTML = `<p class="text-sm text-slate-400 italic">No se ha definido gobernador (sin porcentajes de voto).</p>`;
+            governorContainer.innerHTML = `<p class="text-sm text-slate-400 italic">No se ha definido gobernador (sin votos asignados).</p>`;
         }
 
         document.getElementById('winners-grid-pop').innerHTML = listPop.map(w => `
