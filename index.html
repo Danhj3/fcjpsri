@@ -2,7 +2,7 @@
 <html lang="es" class="scroll-smooth">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5, user-scalable=yes" />
   <meta name="theme-color" content="#c026d3" />
   <title>Dashboard Monitoreo Electoral — CREEMOS</title>
   <meta name="description" content="Centro de Monitoreo Electoral y Proyección de Escaños" />
@@ -16,9 +16,9 @@
           fontFamily: { sans: ["Inter","ui-sans-serif","system-ui","Segoe UI","Roboto","Helvetica Neue","Arial"] },
           colors: {
             brand: {
-              fuchsia: '#c026d3', // fuchsia-600
-              orange: '#f97316',  // orange-500
-              pink: '#ec4899',    // pink-500
+              fuchsia: '#c026d3', 
+              orange: '#f97316',  
+              pink: '#ec4899',    
             }
           },
           boxShadow: { soft: '0 4px 20px rgba(0,0,0,.05)' },
@@ -35,12 +35,14 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 
   <style>
-    section[id] { scroll-margin-top: 96px; }
+    section[id] { scroll-margin-top: 80px; }
     @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
     body, html { overflow-x: hidden; width: 100%; max-width: 100%; }
     canvas { transition: opacity 0.5s ease-in-out; }
     
     .card-base { @apply rounded-2xl bg-white border border-slate-200 p-4 sm:p-6 shadow-soft; }
+    
+    /* Botón simular optimizado para no solaparse */
     .btn-simular { @apply w-full py-4 rounded-xl text-base font-bold text-white bg-gradient-to-r from-brand-fuchsia to-brand-orange border-none shadow-lg transition-all transform hover:scale-[1.01] active:scale-[0.98] flex justify-center items-center gap-3 hover:shadow-xl hover:opacity-90 cursor-pointer; }
 
     input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
@@ -66,7 +68,7 @@
       </a>
         
       <div class="flex items-center gap-2">
-          <button onclick="window.print()" class="text-xs sm:text-sm font-bold text-slate-600 hover:text-brand-fuchsia transition flex items-center gap-2 bg-white px-3 py-2 rounded-lg border border-slate-200 hover:border-brand-fuchsia shadow-sm relative overflow-hidden group">
+          <button onclick="window.print()" class="text-xs sm:text-sm font-bold text-slate-600 hover:text-brand-fuchsia transition flex items-center gap-2 bg-white px-3 py-2 rounded-lg border border-slate-200 hover:border-brand-fuchsia shadow-sm">
              <i class="fa-solid fa-print text-brand-orange"></i>
              <span class="hidden sm:inline">Generar Reporte</span>
              <span class="sm:hidden">Reporte</span>
@@ -81,10 +83,10 @@
        <div class="max-w-7xl mx-auto grid lg:grid-cols-12 gap-4 sm:gap-8">
           
           <!-- Lado Izquierdo: Inputs (Poblacional y Territorial) -->
-          <div class="lg:col-span-4 space-y-4 w-full min-w-0">
+          <div class="lg:col-span-4 space-y-4 w-full min-w-0 relative">
              
-             <!-- Totales -->
-             <div class="bg-white rounded-2xl border border-slate-200 p-4 shadow-soft sticky top-[72px] z-30">
+             <!-- Totales (AHORA SIN STICKY para evitar solapamiento con botones) -->
+             <div class="bg-white rounded-2xl border border-slate-200 p-4 shadow-soft">
                 <div class="flex items-center gap-3 mb-3 border-b border-slate-100 pb-3">
                    <div class="h-7 w-7 rounded-full bg-gradient-to-br from-brand-fuchsia to-brand-orange flex items-center justify-center text-white font-bold text-xs shadow-md">1</div>
                    <h3 class="font-bold text-base text-slate-800">Carga de Votos</h3>
@@ -104,16 +106,16 @@
                         <span id="terr-sum-display" class="text-lg sm:text-xl font-black text-brand-orange">0/15 Prov.</span>
                     </div>
                 </div>
-             </div>
-
-             <!-- Pestañas Móviles (Votos vs Provincias) -->
-             <div class="flex rounded-lg bg-slate-100 p-1 mt-2">
-                 <button onclick="switchTab('votos')" id="tab-votos" class="flex-1 py-2 text-xs font-bold rounded-md bg-white text-brand-fuchsia shadow-sm transition-all">
-                    % Poblacional
-                 </button>
-                 <button onclick="switchTab('provincias')" id="tab-provincias" class="flex-1 py-2 text-xs font-bold rounded-md text-slate-500 hover:text-brand-orange transition-all">
-                    15 Provincias
-                 </button>
+                
+                <!-- Pestañas Móviles -->
+                <div class="flex rounded-lg bg-slate-100 p-1 mt-4">
+                    <button onclick="switchTab('votos')" id="tab-votos" class="flex-1 py-2 text-xs font-bold rounded-md bg-white text-brand-fuchsia shadow-sm transition-all">
+                        % Poblacional
+                    </button>
+                    <button onclick="switchTab('provincias')" id="tab-provincias" class="flex-1 py-2 text-xs font-bold rounded-md text-slate-500 hover:text-brand-orange transition-all">
+                        15 Provincias
+                    </button>
+                </div>
              </div>
 
              <!-- Contenedor Votos Poblacionales -->
@@ -127,10 +129,14 @@
                  <!-- Inyectado via JS -->
              </div>
 
-             <div class="flex flex-col gap-3 mt-4 sticky bottom-4 z-30">
-                 <button onclick="simulate()" class="btn-simular shadow-2xl">
+             <!-- Botones de acción (siempre visibles) -->
+             <div class="flex flex-col gap-3 mt-6 mb-8">
+                 <button onclick="simulate()" class="btn-simular shadow-xl">
                     <span>PROCESAR NOMBRES</span>
                     <i class="fa-solid fa-users"></i>
+                 </button>
+                 <button onclick="resetApp()" class="w-full py-3 rounded-xl text-xs sm:text-sm font-semibold text-slate-500 bg-white hover:text-rose-600 border border-slate-200 hover:border-rose-200 hover:bg-rose-50 transition flex justify-center items-center gap-2 shadow-sm">
+                    <i class="fa-solid fa-arrows-rotate"></i> Limpiar Pizarra
                  </button>
              </div>
 
@@ -139,13 +145,13 @@
           <!-- Lado Derecho: Resultados -->
           <div class="lg:col-span-8 space-y-4 sm:space-y-6 min-w-0">
              
-             <!-- Gráfico -->
-             <div class="card-base relative flex flex-col justify-center items-center bg-white overflow-hidden p-0 sm:p-6 min-h-[250px] sm:min-h-[350px]">
+             <!-- Gráfico con altura responsiva -->
+             <div class="card-base relative flex flex-col justify-center items-center bg-white overflow-hidden p-0 sm:p-6 min-h-[280px] sm:min-h-[350px]">
                 <div class="w-full px-4 pt-4 pb-0 sm:p-0 sm:absolute sm:top-6 sm:left-6 flex flex-col z-10">
                    <h3 class="font-extrabold text-base sm:text-xl text-slate-900">Composición Dptal. (28 Escaños)</h3>
                 </div>
                 
-                <div class="w-full relative flex justify-center items-end max-w-full overflow-hidden" style="height: 30vh; min-height: 220px;">
+                <div class="w-full relative flex justify-center items-center max-w-full overflow-hidden" style="height: 30vh; min-height: 240px;">
                     <canvas id="parliamentCanvas" class="w-full h-full object-contain z-10"></canvas>
                     <div id="center-info" class="absolute bottom-2 sm:bottom-10 text-center z-0 opacity-0 transition-opacity duration-500 pointer-events-none">
                         <div id="total-seats-number" class="text-3xl sm:text-6xl font-black text-slate-800 tracking-tighter drop-shadow-sm">0</div>
@@ -169,20 +175,44 @@
                             <i class="fa-solid fa-id-card text-emerald-600"></i>
                             Lista Oficial de Titulares Electos
                          </h3>
-                         <p class="text-[10px] sm:text-xs text-slate-500 mt-1 font-medium">Nombres extraídos de la base de datos oficial (Embebida).</p>
+                         <p class="text-[10px] sm:text-xs text-slate-500 mt-1 font-medium">Nombres extraídos de la base de datos oficial.</p>
                      </div>
                  </div>
 
-                 <!-- Grid Poblacionales -->
+                 <!-- Grid Poblacionales (responsive 2 columnas) -->
                  <div class="mb-6">
                      <h4 class="font-bold text-xs text-slate-400 uppercase tracking-widest mb-3 bg-slate-50 py-1 px-2 rounded inline-block">Proporcionales (8 Escaños)</h4>
-                     <div class="grid grid-cols-1 md:grid-cols-2 gap-3" id="winners-grid-pop"></div>
+                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3" id="winners-grid-pop"></div>
                  </div>
 
-                 <!-- Grid Territoriales -->
+                 <!-- Grid Territoriales (responsive 2/3 columnas) -->
                  <div>
                      <h4 class="font-bold text-xs text-slate-400 uppercase tracking-widest mb-3 bg-orange-50 py-1 px-2 rounded inline-block text-brand-orange">Territoriales (15 Escaños)</h4>
-                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3" id="winners-grid-terr"></div>
+                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3" id="winners-grid-terr"></div>
+                 </div>
+             </div>
+
+             <!-- Matriz D'Hondt -->
+             <div id="matrix-card" class="card-base hidden animate-fade-in w-full overflow-x-hidden border border-fuchsia-200 bg-fuchsia-50/10 p-4 sm:p-6">
+                 <div class="mb-3 sm:mb-4">
+                     <h3 class="font-extrabold text-base sm:text-lg text-slate-800 flex items-center gap-2">
+                        <i class="fa-solid fa-calculator text-brand-fuchsia"></i>
+                        Matriz de Asignación (D'Hondt)
+                     </h3>
+                     <p class="text-[10px] sm:text-xs text-slate-500 mt-1 font-medium leading-relaxed">
+                         División matemática que justifica los escaños poblacionales. Los números resaltados son los más altos y ganan un escaño.
+                     </p>
+                 </div>
+                 
+                 <div class="overflow-x-auto custom-scrollbar rounded-xl border border-slate-200 bg-white shadow-sm">
+                     <table class="min-w-full text-xs sm:text-sm text-left border-collapse">
+                         <thead id="matrix-head">
+                             <!-- Header JS -->
+                         </thead>
+                         <tbody id="matrix-body">
+                             <!-- Body JS -->
+                         </tbody>
+                     </table>
                  </div>
              </div>
 
@@ -193,7 +223,6 @@
 
 <script>
     // --- EMBEDDED DATABASE ---
-    // Estructura de la DB: candidatesDB[Sigla][Cargo (Poblacional/Territorial)][Posicion/Provincia] = Nombre
     window.candidatesDB = {
         'CREEMOS-PATRIA': {
             'POBLACIONAL': {
@@ -211,21 +240,19 @@
                 'Ángel Sandoval': 'CARLA ANDREA CARREÑO DE LUQUE',
                 'Chiquitos': 'BLANCA RUTH TERRAZAS BARBA',
                 'Cordillera': 'HECTOR CONTRERAS ALVAREZ',
-                'Florida': 'EDUARDO HURTADO LINO',
-                'Germán Busch': 'Asambleísta Titular (CREEMOS)',
-                'Guarayos': 'Asambleísta Titular (CREEMOS)',
-                'Ichilo': 'Asambleísta Titular (CREEMOS)',
-                'Ignacio Warnes': 'Asambleísta Titular (CREEMOS)',
-                'José Miguel de Velasco': 'Asambleísta Titular (CREEMOS)',
-                'Manuel María Caballero': 'Asambleísta Titular (CREEMOS)',
-                'Ñuflo de Chávez': 'Asambleísta Titular (CREEMOS)',
-                'Obispo Santistevan': 'Asambleísta Titular (CREEMOS)',
-                'Sara': 'Asambleísta Titular (CREEMOS)',
-                'Vallegrande': 'Asambleísta Titular (CREEMOS)'
+                'Florida': 'EDUARDO HURTADO LINO'
             }
-        }
-        // Nota: Los candidatos de otros partidos se generan automáticamente como genéricos (Fallback)
-        // ya que el archivo original sobrepasa el límite de lectura de contexto de la IA.
+        },
+        'DEMOCRATAS': { 'POBLACIONAL': { 1: 'BRANKO GORAN MARINKOVIC JOVICEVIC' } },
+        'SPT': { 'POBLACIONAL': { 1: 'OTTO ANDRES RITTER MENDEZ' } },
+        'A-UPP': { 'POBLACIONAL': { 1: 'EDUARDO PEREIRA ALCOCER' } },
+        'FE': { 'POBLACIONAL': { 1: 'VLADIMIR ARIEL PEÑA VIRHUEZ' } },
+        'LIBRE': { 'POBLACIONAL': { 1: 'JUAN PABLO VELASCO DALENCE' } },
+        'MTS': { 'POBLACIONAL': { 1: 'CHI HYUN CHUNG' } },
+        'NGP': { 'POBLACIONAL': { 1: 'JULIO CESAR TORREZ TAPIA' } },
+        'PDC': { 'POBLACIONAL': { 1: 'MAURICIO QUEZADA MOSTAJO' } },
+        'PSC': { 'POBLACIONAL': { 1: 'GUIDO EDUARDO NAYAR PARADA' } },
+        'TODOS': { 'POBLACIONAL': { 1: 'MIGUEL CADIMA CASTRO' } }
     };
 
     const PROVINCIAS = [
@@ -255,14 +282,25 @@
     };
 
     window.onload = () => {
+        initData();
+        window.addEventListener('resize', () => {
+            if (!document.getElementById('placeholder-state').classList.contains('hidden')) return;
+            // Redibujar canvas si hay datos
+            const seatList = getCurrentSeatList();
+            if (seatList) drawParliamentResponsive(seatList);
+        });
+    };
+
+    function initData() {
+        state.candidates = [];
         initialParties.forEach(p => {
             state.candidates.push({ sigla: p.sigla, percent: '', color: p.color });
         });
         PROVINCIAS.forEach(prov => state.provWinners[prov] = '');
-        
         renderVotos();
         renderProvincias();
-    };
+        updateTotals();
+    }
 
     function switchTab(tab) {
         if(tab === 'votos') {
@@ -280,12 +318,11 @@
         }
     }
 
-    // Fallback Inteligente: Si no está en la base, genera un nombre genérico
     function getNameFromDB(sigla, type, key) {
         if(window.candidatesDB[sigla] && window.candidatesDB[sigla][type] && window.candidatesDB[sigla][type][key]) {
             return window.candidatesDB[sigla][type][key];
         }
-        return `Asambleísta Titular (${sigla})`;
+        return `Asambleísta ${type === 'POBLACIONAL' ? 'Poblacional' : 'Territorial'} ${key} (${sigla})`;
     }
 
     function updatePercent(sigla, val) {
@@ -354,7 +391,7 @@
             </div>
         `).join('');
         
-        container.innerHTML += provsHtml;
+        container.innerHTML = `<p class="text-[10px] text-slate-500 font-medium px-2 pb-1">Seleccione la fuerza ganadora (Mayoría Simple) en cada provincia:</p>` + provsHtml;
         
         PROVINCIAS.forEach(prov => {
             if(state.provWinners[prov]) {
@@ -364,35 +401,145 @@
         });
     }
 
-    function dhondt(candidates, seats) {
+    // --- LÓGICA D'HONDT Y MATRIZ ---
+    function dhondtWithMatrix(candidates, seats) {
         let allQuotients = [];
         candidates.forEach(c => {
             const votes = parseFloat(c.percent) || 0;
             if (votes > 0) {
                 for(let i=1; i<=seats; i++) {
-                    allQuotients.push({ candidateSigla: c.sigla, divisor: i, value: votes / i, seatNumber: null });
+                    allQuotients.push({ 
+                        candidateSigla: c.sigla, 
+                        divisor: i, 
+                        value: votes / i, 
+                        seatNumber: null,
+                        isWinner: false 
+                    });
                 }
             }
         });
 
         allQuotients.sort((a, b) => b.value - a.value);
 
-        let winners = [];
+        let allocation = {};
+        candidates.forEach(c => allocation[c.sigla] = 0);
+        
         for(let i=0; i<seats; i++) {
             if(allQuotients[i]) {
+                allQuotients[i].isWinner = true;
                 allQuotients[i].seatNumber = i + 1;
-                winners.push(allQuotients[i]);
+                allocation[allQuotients[i].candidateSigla]++;
             }
         }
-        return winners; 
+        
+        return { allocation, matrixData: allQuotients };
+    }
+
+    function renderDhondtMatrix(matrixData, activeCandidates, seats) {
+        const container = document.getElementById('matrix-card');
+        const thead = document.getElementById('matrix-head');
+        const tbody = document.getElementById('matrix-body');
+
+        container.classList.remove('hidden');
+
+        let headHtml = `<tr><th class="px-2 py-2 sm:px-3 sm:py-3 text-center bg-slate-100 border-b border-slate-200 text-slate-500 uppercase text-[9px] sm:text-xs w-16 sm:w-24">Divisor</th>`;
+        activeCandidates.forEach(c => {
+            headHtml += `<th class="px-2 py-2 sm:px-3 sm:py-3 text-center bg-white border-b border-slate-200 font-bold uppercase text-[9px] sm:text-xs" style="color:${c.color}">${c.sigla}</th>`;
+        });
+        headHtml += `</tr>`;
+        thead.innerHTML = headHtml;
+
+        let bodyHtml = '';
+        for(let i = 1; i <= seats; i++) {
+            bodyHtml += `<tr><td class="px-2 py-2 sm:px-3 sm:py-3 border-b border-slate-100 font-black text-slate-400 bg-slate-50 text-center text-xs sm:text-sm">÷ ${i}</td>`;
+
+            activeCandidates.forEach(c => {
+                const q = matrixData.find(x => x.candidateSigla === c.sigla && x.divisor === i);
+                if(q) {
+                    if(q.isWinner) {
+                        bodyHtml += `
+                        <td class="px-2 py-1 sm:px-3 sm:py-2 border-b border-slate-200 text-center bg-fuchsia-50/80 align-middle">
+                            <div class="flex flex-col items-center justify-center">
+                                <div class="font-black text-brand-fuchsia text-xs sm:text-sm tracking-tight">${q.value.toFixed(2)}</div>
+                                <span class="text-[8px] sm:text-[9px] bg-gradient-to-r from-brand-fuchsia to-brand-pink text-white px-1.5 py-0.5 rounded shadow-sm font-bold uppercase mt-0.5 sm:mt-1 whitespace-nowrap">Escaño ${q.seatNumber}</span>
+                            </div>
+                        </td>`;
+                    } else {
+                        bodyHtml += `
+                        <td class="px-2 py-2 sm:px-3 sm:py-3 border-b border-slate-100 text-center text-slate-400 font-mono text-[10px] sm:text-xs align-middle">
+                            ${q.value.toFixed(2)}
+                        </td>`;
+                    }
+                } else {
+                    bodyHtml += `<td class="px-2 py-2 sm:px-3 sm:py-3 border-b border-slate-100"></td>`;
+                }
+            });
+            bodyHtml += `</tr>`;
+        }
+        tbody.innerHTML = bodyHtml;
+    }
+
+    // Obtener lista actual de escaños para redibujar
+    function getCurrentSeatList() {
+        const popWinners = document.querySelectorAll('#winners-grid-pop > div');
+        const terrWinners = document.querySelectorAll('#winners-grid-terr > div');
+        if (popWinners.length === 0 && terrWinners.length === 0) return null;
+
+        let totals = {};
+        state.candidates.forEach(c => totals[c.sigla] = { color: c.color, count: 0 });
+
+        // Contar poblacionales
+        document.querySelectorAll('#winners-grid-pop > div').forEach(div => {
+            const partySpan = div.querySelector('.text-\\[9px\\].uppercase.font-bold span + span');
+            if (partySpan) {
+                const party = partySpan.textContent.trim();
+                if (totals[party]) totals[party].count++;
+            }
+        });
+
+        // Contar territoriales
+        document.querySelectorAll('#winners-grid-terr > div').forEach(div => {
+            const partySpan = div.querySelector('.flex.justify-between .text-\\[9px\\].font-bold span + span');
+            if (partySpan) {
+                const party = partySpan.textContent.trim();
+                if (totals[party]) totals[party].count++;
+            }
+        });
+
+        let seatList = [];
+        // 5 escaños indígenas (siempre presentes en el diseño original)
+        for(let i=0; i<5; i++) seatList.push({color: '#64748b', name: 'Indígena'});
+        Object.values(totals).forEach(t => { for(let i=0; i<t.count; i++) seatList.push(t); });
+        while(seatList.length < 28) seatList.push({color: '#e2e8f0', name: 'Vacante'});
+        
+        seatList.sort((a,b) => {
+             if(a.name === 'Indígena') return -1; if(b.name === 'Indígena') return 1;
+             if(a.name === 'Vacante') return 1; if(b.name === 'Vacante') return -1;
+             return a.name?.localeCompare(b.name) || 0; 
+        });
+        return seatList;
     }
 
     function simulate() {
         const sumPerc = state.candidates.reduce((a,b)=>a+(parseFloat(b.percent)||0),0);
-        if(sumPerc > 100) { alert("Los votos exceden el 100%."); return; }
+        if(sumPerc > 100) { 
+            alert("Error: Los votos exceden el 100%. Por favor corrige la carga de datos."); 
+            return; 
+        }
 
-        // Extraer Ganadores POBLACIONALES
-        const popWinnersData = dhondt(state.candidates, 8);
+        const activeCandidates = state.candidates.filter(c => parseFloat(c.percent) > 0);
+        let hasData = activeCandidates.length > 0;
+        
+        PROVINCIAS.forEach(prov => { if(state.provWinners[prov] !== '') hasData = true; });
+
+        if(!hasData) {
+            alert("No hay datos cargados. Ingrese % de votos o asigne provincias ganadoras.");
+            return;
+        }
+
+        const POP_SEATS = 8;
+        const resultData = dhondtWithMatrix(state.candidates, POP_SEATS);
+        const popWinnersData = resultData.matrixData.filter(q => q.isWinner).sort((a,b) => a.seatNumber - b.seatNumber);
         
         let partyPopCount = {};
         const listPop = popWinnersData.map(w => {
@@ -402,7 +549,6 @@
             return { seat: w.seatNumber, party: w.candidateSigla, color: color, name: name };
         });
 
-        // Extraer Ganadores TERRITORIALES
         const listTerr = [];
         PROVINCIAS.forEach(prov => {
             const winnerSigla = state.provWinners[prov];
@@ -413,20 +559,18 @@
             }
         });
 
-        // UI Updates
         document.getElementById('placeholder-state').classList.add('hidden');
         document.getElementById('center-info').classList.remove('opacity-0');
         document.getElementById('winners-card').classList.remove('hidden');
         
         document.getElementById('total-seats-number').innerText = 28;
 
-        // Render Lists
         document.getElementById('winners-grid-pop').innerHTML = listPop.map(w => `
             <div class="bg-white p-3 rounded-xl border border-fuchsia-100 shadow-sm flex items-center gap-3">
                 <div class="flex-shrink-0 w-7 h-7 rounded-full bg-fuchsia-50 text-brand-fuchsia font-black text-xs flex items-center justify-center border border-fuchsia-200">#${w.seat}</div>
                 <div class="min-w-0 flex-1">
                     <p class="text-[9px] uppercase font-bold text-slate-400 mb-0.5 flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full inline-block" style="background:${w.color}"></span>${w.party}</p>
-                    <p class="font-bold text-xs text-slate-800 leading-tight truncate">${w.name}</p>
+                    <p class="font-bold text-xs text-slate-800 leading-tight truncate" title="${w.name}">${w.name}</p>
                 </div>
             </div>
         `).join('') || '<p class="text-xs text-slate-400 italic">Sin asignar.</p>';
@@ -437,27 +581,19 @@
                     <span class="text-[9px] font-black text-brand-orange uppercase bg-orange-50 px-1.5 rounded">${w.prov}</span>
                     <span class="text-[9px] font-bold text-slate-400 flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full inline-block" style="background:${w.color}"></span>${w.party}</span>
                 </div>
-                <p class="font-bold text-xs text-slate-800 leading-tight truncate">${w.name}</p>
+                <p class="font-bold text-xs text-slate-800 leading-tight truncate" title="${w.name}">${w.name}</p>
             </div>
         `).join('') || '<p class="text-xs text-slate-400 italic">Ninguna provincia asignada.</p>';
 
-        // Canvas Chart Logic 
-        let totals = {};
-        state.candidates.forEach(c => totals[c.sigla] = { color: c.color, count: 0 });
-        listPop.forEach(w => totals[w.party].count++);
-        listTerr.forEach(w => totals[w.party].count++);
+        if(activeCandidates.length > 0) {
+            renderDhondtMatrix(resultData.matrixData, activeCandidates, POP_SEATS);
+        } else {
+            document.getElementById('matrix-card').classList.add('hidden');
+        }
 
-        let seatList = [];
-        for(let i=0; i<5; i++) seatList.push({color: '#64748b', name: 'Indígena'});
-        Object.values(totals).forEach(t => { for(let i=0; i<t.count; i++) seatList.push(t); });
-        while(seatList.length < 28) seatList.push({color: '#e2e8f0', name: 'Vacante'});
-        
-        seatList.sort((a,b) => {
-             if(a.name === 'Indígena') return -1; if(b.name === 'Indígena') return 1;
-             if(a.name === 'Vacante') return 1; if(b.name === 'Vacante') return -1;
-             return a.name?.localeCompare(b.name) || 0; 
-        });
-        drawParliamentResponsive(seatList);
+        // Actualizar gráfico
+        const seatList = getCurrentSeatList();
+        if (seatList) drawParliamentResponsive(seatList);
     }
 
     function drawParliamentResponsive(seatList) {
@@ -511,6 +647,23 @@
                 currentSeat++;
             }
         }
+    }
+
+    function resetApp() {
+        if(!confirm("¿Desea limpiar todo el formulario y empezar de cero?")) return;
+        
+        initData();
+        
+        document.getElementById('placeholder-state').classList.remove('hidden');
+        document.getElementById('center-info').classList.add('opacity-0');
+        document.getElementById('winners-card').classList.add('hidden');
+        document.getElementById('matrix-card').classList.add('hidden');
+        
+        const canvas = document.getElementById('parliamentCanvas');
+        const ctx = canvas.getContext('2d');
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+        
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 </script>
 </body>
