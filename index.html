@@ -1,430 +1,835 @@
-<!DOCTYPE html>
-<html lang="es">
+<!doctype html>
+<html lang="es" class="scroll-smooth">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Facultad de Ciencias Jurídicas, Políticas, Sociales y Relaciones Internacionales - Universidad Autónoma Gabriel René Moreno">
-    <title>Facultad de Ciencias Jurídicas, Políticas, Sociales y Relaciones Internacionales - UAGRM</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/styles.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <meta name="theme-color" content="#c026d3" />
+  <title>Dashboard Monitoreo Electoral — CREEMOS</title>
+  <meta name="description" content="Centro de Monitoreo Electoral y Proyección de Escaños" />
+   
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ["Inter","ui-sans-serif","system-ui","Segoe UI","Roboto","Helvetica Neue","Arial"] },
+          colors: {
+            brand: {
+              fuchsia: '#c026d3', // fuchsia-600
+              orange: '#f97316',  // orange-500
+              pink: '#ec4899',    // pink-500
+            }
+          },
+          boxShadow: { soft: '0 6px 22px rgba(2,6,23,.08)' },
+          animation: {
+            'fade-in': 'fadeIn 0.3s ease-out',
+            'shake': 'shake 0.5s cubic-bezier(.36,.07,.19,.97) both'
+          },
+          keyframes: {
+            fadeIn: { '0%': { opacity: '0', transform: 'translateY(-10px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } },
+            shake: {
+              '10%, 90%': { transform: 'translate3d(-1px, 0, 0)' },
+              '20%, 80%': { transform: 'translate3d(2px, 0, 0)' },
+              '30%, 50%, 70%': { transform: 'translate3d(-4px, 0, 0)' },
+              '40%, 60%': { transform: 'translate3d(4px, 0, 0)' }
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+  <style>
+    section[id] { scroll-margin-top: 96px; }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+    
+    body, html { overflow-x: hidden; width: 100%; max-width: 100%; }
+    canvas { transition: opacity 0.5s ease-in-out; }
+    
+    .input-field {
+        @apply w-full rounded-xl border-slate-300 shadow-sm focus:border-brand-fuchsia focus:ring-brand-fuchsia sm:text-sm px-4 py-3 border bg-white transition-colors placeholder:text-slate-400;
+    }
+    .card-base {
+        @apply rounded-2xl bg-white border border-slate-200 p-5 sm:p-6 shadow-soft;
+    }
+    
+    .btn-simular {
+        @apply w-full py-4 rounded-xl text-base font-bold text-white bg-gradient-to-r from-brand-fuchsia to-brand-orange border-none shadow-lg transition-all transform hover:scale-[1.02] flex justify-center items-center gap-3 hover:shadow-xl hover:opacity-90 cursor-pointer;
+    }
+
+    /* Custom Scrollbar for Matrix */
+    .custom-scrollbar::-webkit-scrollbar { height: 8px; }
+    .custom-scrollbar::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 4px; }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+  </style>
 </head>
-<body>
-    <header class="site-header" id="inicio">
-        <div class="container header-layout">
-            <a class="brand" href="#inicio" aria-label="Inicio Facultad Ciencias Jurídicas UAGRM">
-                <span class="brand__acronym">FCJPSRI</span>
-                <span class="brand__name" data-i18n="brand.name">Facultad de Ciencias Jurídicas, Políticas, Sociales y Relaciones Internacionales</span>
-            </a>
-            <div class="header-actions">
-                <div class="language-switcher" role="group" aria-label="Cambiar idioma" data-i18n-aria-label="languageSwitcher.aria">
-                    <button type="button" class="language-switcher__btn is-active" data-language="es" aria-pressed="true">ES</button>
-                    <button type="button" class="language-switcher__btn" data-language="en" aria-pressed="false">EN</button>
-                </div>
-                <nav class="site-nav" aria-label="Principal" data-i18n-aria-label="nav.main">
-                    <button class="site-nav__toggle" type="button" aria-expanded="false" aria-controls="main-menu">
-                        <span class="sr-only" data-i18n="nav.toggleOpen">Abrir menú</span>
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                    </button>
-                    <ul id="main-menu">
-                        <li><a href="#facultad" data-i18n="nav.facultad">La Facultad</a></li>
-                        <li><a href="#programas" data-i18n="nav.programas">Programas</a></li>
-                        <li><a href="#investigacion" data-i18n="nav.investigacion">Investigación</a></li>
-                        <li><a href="#autoridades" data-i18n="nav.autoridades">Autoridades</a></li>
-                        <li><a href="#vida-estudiantil" data-i18n="nav.vida">Vida estudiantil</a></li>
-                        <li><a href="#noticias" data-i18n="nav.noticias">Noticias</a></li>
-                        <li><a href="#admisiones" data-i18n="nav.admisiones">Admisiones</a></li>
-                        <li><a href="#contacto" data-i18n="nav.contacto">Contacto</a></li>
-                    </ul>
-                </nav>
-            </div>
+<body class="min-h-screen bg-slate-50 text-slate-800 flex flex-col w-full overflow-x-hidden">
+
+  <!-- Header Gradient Line -->
+  <div class="h-1.5 w-full bg-gradient-to-r from-brand-fuchsia via-brand-pink to-brand-orange"></div>
+
+  <header class="sticky top-0 z-30 backdrop-blur bg-white/80 border-b border-slate-200 w-full shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between">
+      <a href="#" class="flex items-center gap-3 min-w-0">
+        <img src="https://i.imgur.com/jt9pdBM.png" alt="Logo Creemos" class="h-10 sm:h-12 object-contain drop-shadow-sm" />
+        <div class="leading-tight truncate pl-2 border-l-2 border-slate-200">
+          <p class="text-[10px] sm:text-xs tracking-widest font-bold text-brand-fuchsia uppercase">Centro de Control</p>
+          <h1 class="font-extrabold text-base sm:text-lg text-slate-900 truncate tracking-tight">Monitoreo Electoral</h1>
         </div>
-    </header>
+      </a>
+        
+      <div class="flex items-center gap-2">
+          <button onclick="window.print()" class="text-sm font-medium text-slate-600 hover:text-brand-fuchsia transition flex items-center gap-2 group bg-white px-3 py-2 rounded-lg border border-slate-200 hover:border-brand-fuchsia shadow-sm">
+             <i class="fa-solid fa-print group-hover:scale-110 transition-transform text-brand-orange"></i>
+             <span class="hidden sm:inline">Generar Reporte</span>
+          </button>
+      </div>
+    </div>
+  </header>
 
-    <main>
-        <section class="hero">
-            <div class="container hero__layout">
-                <div class="hero__content">
-                    <p class="hero__eyebrow" data-i18n="hero.eyebrow">Universidad Autónoma Gabriel René Moreno</p>
-                    <h1 data-i18n="hero.title">Formamos líderes con visión global y compromiso social.</h1>
-                    <p class="hero__lead" data-i18n="hero.description">La Facultad de Ciencias Jurídicas, Políticas, Sociales y Relaciones Internacionales de la UAGRM impulsa profesionales que transforman la justicia, la diplomacia y la sociedad boliviana con innovación y ética.</p>
-                    <div class="hero__actions">
-                        <a class="btn primary" href="#admisiones" data-i18n="hero.ctaPrimary">Comienza tu postulación</a>
-                        <a class="btn ghost" href="#programas" data-i18n="hero.ctaSecondary">Explora nuestros programas</a>
-                    </div>
-                    <div class="hero__stats" role="list" aria-label="Indicadores clave de la facultad" data-i18n-aria-label="hero.highlightsLabel">
-                        <article class="stat-card" role="listitem">
-                            <h2><span data-counter="7">7</span><span>+</span></h2>
-                            <p data-i18n="hero.highlightPrograms">Programas de grado y posgrado acreditados internacionalmente.</p>
-                        </article>
-                        <article class="stat-card" role="listitem">
-                            <h2><span data-counter="120">120</span><span>+</span></h2>
-                            <p data-i18n="hero.highlightAlliances">Convenios activos con instituciones públicas y privadas del país y el exterior.</p>
-                        </article>
-                        <article class="stat-card" role="listitem">
-                            <h2><span data-counter="35">35</span><span>+</span></h2>
-                            <p data-i18n="hero.highlightProjects">Proyectos de investigación y extensión social vigentes.</p>
-                        </article>
-                    </div>
-                </div>
-                <div class="hero__media" aria-hidden="true">
-                    <div class="orb"></div>
-                    <div class="hero__card">
-                        <h3 data-i18n="hero.featureTitle">Experiencia inmersiva</h3>
-                        <p data-i18n="hero.featureDescription">Clínicas jurídicas, simulaciones diplomáticas y think tank internacional en un solo ecosistema de aprendizaje.</p>
-                    </div>
-                    <div class="hero__card">
-                        <h3 data-i18n="hero.featureTitle2">Red global</h3>
-                        <p data-i18n="hero.featureDescription2">Intercambios en 3 continentes y alianzas con organismos multilaterales.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
+  <main class="flex-grow w-full max-w-[100vw] overflow-hidden">
+        
+    <section class="relative overflow-hidden pt-6 pb-4 sm:pt-8 sm:pb-6 w-full px-4">
+       <div class="max-w-7xl mx-auto">
+          <div class="text-left md:text-center max-w-3xl mx-auto">
+             <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-[10px] sm:text-xs font-bold bg-fuchsia-50 text-brand-fuchsia ring-1 ring-fuchsia-200 mb-3">
+                 <span class="w-2 h-2 rounded-full bg-brand-fuchsia animate-pulse"></span>
+                 EN VIVO
+             </span>
+             <h2 class="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight text-slate-900">Dashboard de Asignación de Escaños</h2>
+             <p class="mt-3 text-sm sm:text-base text-slate-600 font-medium">
+                Monitoreo continuo de resultados. Ingrese los porcentajes obtenidos para calcular la distribución poblacional (D'Hondt) y asigne las provincias ganadas para los escaños territoriales.
+             </p>
+          </div>
+       </div>
+    </section>
 
-        <section class="section" id="facultad">
-            <div class="container two-columns">
-                <div class="section__intro">
-                    <h2 data-i18n="facultad.title">Una facultad a la vanguardia de las ciencias sociales y jurídicas</h2>
-                    <p data-i18n="facultad.description">Integramos la tradición académica con metodologías activas, aprendizaje basado en retos y alianzas estratégicas para brindar experiencias transformadoras. Nuestros claustros están conformados por docentes investigadores, diplomáticos en ejercicio y especialistas con amplia trayectoria profesional.</p>
-                    <div class="pill-group">
-                        <span class="pill" data-i18n="facultad.pill1">Metodologías activas</span>
-                        <span class="pill" data-i18n="facultad.pill2">Clínicas jurídicas</span>
-                        <span class="pill" data-i18n="facultad.pill3">Laboratorio de gobernanza</span>
-                        <span class="pill" data-i18n="facultad.pill4">Think tank internacional</span>
+    <section class="py-4 sm:py-6 w-full px-4">
+       <div class="max-w-7xl mx-auto grid lg:grid-cols-12 gap-6 sm:gap-8">
+          
+          <!-- Lado Izquierdo: Inputs -->
+          <div class="lg:col-span-4 space-y-4 sm:space-y-6 w-full min-w-0">
+             
+             <div class="card-base relative overflow-hidden">
+                <div class="flex items-center gap-3 mb-4 border-b border-slate-100 pb-3">
+                   <div class="h-8 w-8 rounded-full bg-gradient-to-br from-brand-fuchsia to-brand-orange flex items-center justify-center text-white font-bold text-sm shadow-md">1</div>
+                   <h3 class="font-bold text-lg text-slate-800">Carga de Datos</h3>
+                </div>
+
+                <!-- Input Nivel Gobierno (Oculto visualmente pero activo lógicamente para mantener la estructura, fijado a Gobernación por el contexto de Asambleístas) -->
+                <div class="hidden">
+                    <button onclick="setMode('gobernacion')" id="btn-gob"></button>
+                    <button onclick="setMode('municipio')" id="btn-mun"></button>
+                </div>
+
+                <div id="gob-info" class="rounded-xl bg-orange-50 border border-orange-200 p-4 text-sm text-orange-900 mb-4 shadow-sm">
+                   <p class="font-bold mb-1 text-xs uppercase text-brand-orange">Asamblea Dptal. Santa Cruz (28):</p>
+                   <ul class="list-disc list-inside space-y-1 text-orange-800/90 text-xs font-medium">
+                      <li><strong>8 Poblacionales:</strong> Sistema D'Hondt.</li>
+                      <li><strong>15 Territoriales:</strong> Mayoría en provincias (asignar manual).</li>
+                      <li><strong>5 Indígenas:</strong> Escaños reservados fijos.</li>
+                   </ul>
+                </div>
+
+                <div id="input-error" class="hidden animate-shake mb-3 rounded-lg bg-rose-50 border border-rose-200 p-3 flex items-start gap-2">
+                    <i class="fa-solid fa-circle-xmark text-rose-500 mt-0.5"></i>
+                    <div class="text-xs text-rose-700">
+                        <span class="font-bold block">Límite excedido</span>
+                        La suma total no puede superar el 100%. <span id="error-detail"></span>
                     </div>
                 </div>
-                <div class="focus-card">
-                    <h3 data-i18n="facultad.missionTitle">Misión</h3>
-                    <p data-i18n="facultad.mission">Formar profesionales altamente competentes con sentido ético y compromiso con el desarrollo democrático de Bolivia y la región.</p>
-                    <h3 data-i18n="facultad.visionTitle">Visión</h3>
-                    <p data-i18n="facultad.vision">Ser la facultad referente en Latinoamérica en ciencias jurídicas, políticas y relaciones internacionales, reconocida por su impacto social y su innovación académica.</p>
-                </div>
-            </div>
-        </section>
 
-        <section class="section section--accent" id="programas">
-            <div class="container">
-                <div class="section__header">
-                    <span class="section__eyebrow" data-i18n="programs.eyebrow">Oferta Académica</span>
-                    <h2 data-i18n="programs.title">Programas académicos</h2>
-                    <p data-i18n="programs.lead">Oferta de grado, posgrado y formación continua alineada con los desafíos de un mundo interconectado.</p>
+                <div class="flex flex-col sm:flex-row gap-3 mb-4 items-end">
+                   <div class="w-full sm:flex-1">
+                       <label class="block text-[10px] uppercase font-bold text-slate-500 mb-1 ml-1">Fuerza Política</label>
+                       <input type="text" id="cand-name" placeholder="Ej. CREEMOS, MAS..." class="input-field font-bold text-slate-800 placeholder:text-slate-300" style="text-transform:uppercase">
+                   </div>
+                   
+                   <div class="flex gap-3 w-full sm:w-auto items-end">
+                       <div class="flex-1 sm:w-24">
+                           <label class="block text-[10px] uppercase font-bold text-slate-500 mb-1 ml-1 text-right">% Votos</label>
+                           <input type="number" id="cand-percent" placeholder="0.0" class="input-field text-right font-mono font-bold text-brand-fuchsia" onkeydown="if(event.key==='Enter') addCandidate()">
+                       </div>
+                       <div class="shrink-0">
+                           <button onclick="addCandidate()" class="h-[46px] w-[46px] sm:w-12 flex items-center justify-center rounded-xl bg-slate-900 text-white hover:bg-brand-fuchsia hover:scale-105 active:scale-95 transition shadow-md border-2 border-transparent" aria-label="Añadir">
+                              <i class="fa-solid fa-plus text-lg"></i>
+                           </button>
+                       </div>
+                   </div>
                 </div>
-                <div class="cards-grid">
-                    <article class="program-card">
-                        <div class="program-card__icon" aria-hidden="true">⚖️</div>
-                        <h3 data-i18n="programs.law.title">Derecho</h3>
-                        <p data-i18n="programs.law.description">Plan de estudios con énfasis en litigación oral, derecho comparado y práctica en clínicas legales.</p>
-                        <ul>
-                            <li data-i18n="programs.law.item1">Modalidad presencial y virtual</li>
-                            <li data-i18n="programs.law.item2">Convenios con bufetes y tribunales</li>
-                            <li data-i18n="programs.law.item3">Certificaciones internacionales</li>
-                        </ul>
-                    </article>
-                    <article class="program-card">
-                        <div class="program-card__icon" aria-hidden="true">🏛️</div>
-                        <h3 data-i18n="programs.politics.title">Ciencias Políticas y Gestión Pública</h3>
-                        <p data-i18n="programs.politics.description">Formación integral para diseñar, implementar y evaluar políticas públicas innovadoras.</p>
-                        <ul>
-                            <li data-i18n="programs.politics.item1">Laboratorio de gobierno abierto</li>
-                            <li data-i18n="programs.politics.item2">Simulaciones diplomáticas</li>
-                            <li data-i18n="programs.politics.item3">Prácticas en instituciones públicas</li>
-                        </ul>
-                    </article>
-                    <article class="program-card">
-                        <div class="program-card__icon" aria-hidden="true">🌐</div>
-                        <h3 data-i18n="programs.ir.title">Relaciones Internacionales</h3>
-                        <p data-i18n="programs.ir.description">Competencias para representar al país ante organismos multilaterales y empresas globales.</p>
-                        <ul>
-                            <li data-i18n="programs.ir.item1">Movilidad académica internacional</li>
-                            <li data-i18n="programs.ir.item2">Club de negociación y protocolo</li>
-                            <li data-i18n="programs.ir.item3">Red de egresados global</li>
-                        </ul>
-                    </article>
-                    <article class="program-card">
-                        <div class="program-card__icon" aria-hidden="true">🎓</div>
-                        <h3 data-i18n="programs.postgrad.title">Posgrados y Educación Continua</h3>
-                        <p data-i18n="programs.postgrad.description">Maestrías, diplomados y cursos ejecutivos con docentes invitados de América y Europa.</p>
-                        <ul>
-                            <li data-i18n="programs.postgrad.item1">Modalidades híbridas</li>
-                            <li data-i18n="programs.postgrad.item2">Enfoque multidisciplinario</li>
-                            <li data-i18n="programs.postgrad.item3">Networking profesional</li>
-                        </ul>
-                    </article>
-                </div>
-            </div>
-        </section>
 
-        <section class="section" id="investigacion">
-            <div class="container two-columns">
+                <div class="rounded-xl border border-slate-200 overflow-hidden bg-slate-50/50 shadow-inner">
+                   <table class="min-w-full text-sm">
+                      <thead class="bg-slate-100 text-slate-500 font-semibold text-xs uppercase">
+                         <tr>
+                            <th class="px-3 py-2 text-left">Sigla</th>
+                            <th class="px-3 py-2 text-right">% Voto</th>
+                            <th class="px-3 py-2"></th>
+                         </tr>
+                      </thead>
+                      <tbody id="candidates-list" class="divide-y divide-slate-200 bg-white">
+                         <tr><td colspan="3" class="p-4 text-center text-slate-400 text-xs italic">Añade partidos para comenzar</td></tr>
+                      </tbody>
+                   </table>
+                </div>
+                <div class="flex justify-between items-center mt-2 px-1">
+                    <span class="text-[10px] text-slate-500 uppercase font-bold tracking-wider">Total Escrutado</span>
+                    <div id="total-percent-display" class="text-xs font-bold text-slate-400 transition-colors duration-300 bg-slate-100 px-2 py-1 rounded">0%</div>
+                </div>
+             </div>
+
+             <div id="territorial-section" class="card-base border-t-4 border-t-brand-orange">
+                <div class="flex items-center gap-3 mb-3 border-b border-slate-100 pb-3">
+                   <div class="h-8 w-8 rounded-full bg-orange-100 flex items-center justify-center text-brand-orange font-bold text-sm">2</div>
+                   <h3 class="font-bold text-lg text-slate-800">Provincias Ganadas</h3>
+                </div>
                 <div>
-                    <div class="section__header">
-                        <span class="section__eyebrow" data-i18n="research.eyebrow">Impacto académico</span>
-                        <h2 data-i18n="research.title">Investigación con impacto real</h2>
-                        <p data-i18n="research.description">Impulsamos centros de investigación que generan conocimiento para fortalecer la democracia, los derechos humanos y la gobernanza sostenible.</p>
+                    <p class="text-xs text-slate-500 mb-3 font-medium">
+                        Indique el número de provincias <strong>(máx. 15)</strong> ganadas por cada fuerza política.
+                    </p>
+                    <div id="territorial-inputs" class="space-y-2">
+                       <p class="text-xs italic text-slate-400 text-center bg-slate-50 p-3 rounded-lg border border-dashed border-slate-200">Esperando ingreso de datos...</p>
                     </div>
-                    <div class="research-list">
-                        <article class="research-card">
-                            <h3 data-i18n="research.observatory.title">Observatorio de Justicia y Derechos Humanos</h3>
-                            <p data-i18n="research.observatory.description">Monitorea procesos judiciales estratégicos, produce informes y brinda asesoría a organizaciones de la sociedad civil.</p>
-                            <a class="link" href="#contacto" data-i18n="research.observatory.cta">Unirme al observatorio</a>
-                        </article>
-                        <article class="research-card">
-                            <h3 data-i18n="research.lab.title">Laboratorio de Políticas Públicas</h3>
-                            <p data-i18n="research.lab.description">Diseña soluciones innovadoras para gobiernos locales y nacionales, incorporando tecnologías cívicas y datos abiertos.</p>
-                            <a class="link" href="#contacto" data-i18n="research.lab.cta">Colaborar como investigador</a>
-                        </article>
-                        <article class="research-card">
-                            <h3 data-i18n="research.center.title">Centro de Estudios Internacionales</h3>
-                            <p data-i18n="research.center.description">Analiza tendencias geopolíticas, comercio exterior y diplomacia cultural con enfoque regional andino-amazónico.</p>
-                            <a class="link" href="#contacto" data-i18n="research.center.cta">Descubrir proyectos activos</a>
-                        </article>
+                    <div id="terr-sum-display" class="mt-4 pt-3 border-t border-slate-100 text-right text-xs font-bold text-brand-orange bg-orange-50 px-3 py-2 rounded-lg">
+                        0 / 15 Provincias Asignadas
                     </div>
                 </div>
-                <aside class="impact-card">
-                    <h3 data-i18n="research.metricsTitle">Red de investigación 2024</h3>
-                    <ul>
-                        <li><strong><span data-counter="18">18</span></strong> <span data-i18n="research.metric1">grupos activos de investigación</span></li>
-                        <li><strong><span data-counter="42">42</span></strong> <span data-i18n="research.metric2">publicaciones indexadas</span></li>
-                        <li><strong><span data-counter="28">28</span></strong> <span data-i18n="research.metric3">convenios con think tanks</span></li>
-                    </ul>
-                </aside>
-            </div>
-        </section>
+             </div>
 
-        <section class="section" id="autoridades">
-            <div class="container">
-                <div class="section__header">
-                    <span class="section__eyebrow" data-i18n="leaders.eyebrow">Liderazgo</span>
-                    <h2 data-i18n="leaders.title">Autoridades de la facultad</h2>
-                    <p data-i18n="leaders.description">Conducimos la Facultad de Ciencias Jurídicas, Políticas, Sociales y Relaciones Internacionales con liderazgo cercano, excelencia académica y vocación de servicio público.</p>
-                </div>
-                <div class="leaders-grid">
-                    <article class="leader-card">
-                        <div class="leader-card__portrait" aria-hidden="true"></div>
-                        <div class="leader-card__body">
-                            <h3 data-i18n="leaders.dean.name">Dr. Manuel Sánchez</h3>
-                            <p class="leader-card__role" data-i18n="leaders.dean.role">Decano</p>
-                            <p data-i18n="leaders.dean.bio">Especialista en derecho administrativo y políticas públicas con más de 25 años de experiencia en la UAGRM. Promueve la innovación curricular y el fortalecimiento de la investigación aplicada.</p>
-                            <blockquote data-i18n="leaders.dean.quote">“Nuestra prioridad es formar profesionales que lideren la transformación institucional de Bolivia.”</blockquote>
-                        </div>
-                    </article>
-                    <article class="leader-card">
-                        <div class="leader-card__portrait" aria-hidden="true"></div>
-                        <div class="leader-card__body">
-                            <h3 data-i18n="leaders.vicedean.name">Dr. Adolfo Guerrero</h3>
-                            <p class="leader-card__role" data-i18n="leaders.vicedean.role">Vicedecano</p>
-                            <p data-i18n="leaders.vicedean.bio">Abogado procesalista y mediador certificado. Coordina las clínicas jurídicas, el acompañamiento estudiantil y la articulación con colegios de profesionales del país.</p>
-                            <blockquote data-i18n="leaders.vicedean.quote">“Acompañamos a cada estudiante para que encuentre su vocación de servicio con ética y compromiso social.”</blockquote>
-                        </div>
-                    </article>
-                    <article class="leader-feature">
-                        <div class="leader-feature__content">
-                            <p class="leader-feature__tag" data-i18n="leaders.event.tag">Evento destacado</p>
-                            <h3 data-i18n="leaders.event.title">Presentación del libro “Bolivia Siglo XXI: Mestizaje y Federalización”</h3>
-                            <p class="leader-feature__meta" data-i18n="leaders.event.role">Autor invitado: Dr. Ramón Peralta Martínez</p>
-                            <p data-i18n="leaders.event.description">Docente de la Universidad Complutense de Madrid comparte su análisis sobre el futuro institucional del país junto a las autoridades facultativas.</p>
-                            <ul class="leader-feature__details">
-                                <li data-i18n="leaders.event.date">Miércoles 22 de octubre · 16:00</li>
-                                <li data-i18n="leaders.event.location">Salón auditorio · Unidad de Postgrado</li>
-                            </ul>
-                            <a class="btn outline" href="#noticias" data-i18n="leaders.event.cta">Ver agenda completa</a>
-                        </div>
-                    </article>
-                </div>
-            </div>
-        </section>
+             <div class="flex flex-col gap-3 mt-6 sm:mt-8">
+                 <button onclick="simulate()" class="btn-simular">
+                    <span>PROCESAR ESCAÑOS</span>
+                    <i class="fa-solid fa-bolt"></i>
+                 </button>
+                 
+                 <button onclick="resetApp()" class="w-full py-3 rounded-xl text-sm font-semibold text-slate-500 hover:text-rose-600 border border-slate-200 hover:border-rose-200 hover:bg-rose-50 transition flex justify-center items-center gap-2">
+                    <i class="fa-solid fa-arrows-rotate"></i> Limpiar Pizarra
+                 </button>
+             </div>
 
-        <section class="section section--alt" id="vida-estudiantil">
-            <div class="container two-columns">
-                <div class="section__header">
-                    <span class="section__eyebrow" data-i18n="studentLife.eyebrow">Experiencia UAGRM</span>
-                    <h2 data-i18n="studentLife.title">Vida estudiantil vibrante</h2>
-                    <p data-i18n="studentLife.description">Nuestro campus ofrece espacios de colaboración, liderazgo estudiantil y experiencias internacionales que amplían tu red profesional.</p>
-                </div>
-                <div class="student-experiences">
-                    <article class="experience-card">
-                        <h3 data-i18n="studentLife.clinics.title">Clínicas jurídicas y mediación</h3>
-                        <p data-i18n="studentLife.clinics.description">Atiende casos reales junto a docentes mentores y aporta al acceso a la justicia.</p>
-                    </article>
-                    <article class="experience-card">
-                        <h3 data-i18n="studentLife.mun.title">Modelos de Naciones Unidas</h3>
-                        <p data-i18n="studentLife.mun.description">Participa en delegaciones nacionales e internacionales con preparación diplomática de alto nivel.</p>
-                    </article>
-                    <article class="experience-card">
-                        <h3 data-i18n="studentLife.volunteer.title">Red de voluntariado</h3>
-                        <p data-i18n="studentLife.volunteer.description">Proyectos sociales con enfoque en derechos humanos, transparencia y gobernanza urbana.</p>
-                    </article>
-                </div>
-                <aside class="impact-card">
-                    <h3 data-i18n="studentLife.statsTitle">Impacto estudiantil 2023</h3>
-                    <ul aria-label="Indicadores de impacto estudiantil" data-i18n-aria-label="studentLife.statsAria">
-                        <li><strong><span data-counter="2450">2450</span></strong> <span data-i18n="studentLife.stat1">Estudiantes activos</span></li>
-                        <li><strong><span data-counter="36">36</span></strong> <span data-i18n="studentLife.stat2">Convenios de intercambio</span></li>
-                        <li><strong><span data-counter="58">58</span></strong> <span data-i18n="studentLife.stat3">Proyectos de responsabilidad social</span></li>
-                    </ul>
-                </aside>
-            </div>
-        </section>
+          </div>
 
-        <section class="section" id="noticias">
-            <div class="container">
-                <div class="section__header">
-                    <span class="section__eyebrow" data-i18n="news.eyebrow">Agenda pública</span>
-                    <h2 data-i18n="news.title">Noticias y eventos destacados</h2>
-                    <p data-i18n="news.description">Entérate de las actividades académicas, foros internacionales y logros de nuestra comunidad.</p>
+          <!-- Lado Derecho: Resultados, Gráfico y Matriz D'Hondt -->
+          <div class="lg:col-span-8 space-y-6 min-w-0">
+             
+             <!-- Gráfico -->
+             <div class="card-base relative flex flex-col justify-center items-center bg-white overflow-hidden p-0 sm:p-6 min-h-[300px] sm:min-h-[400px]">
+                <div class="w-full px-4 pt-4 pb-2 sm:p-0 sm:absolute sm:top-6 sm:left-6 flex flex-col z-10">
+                   <h3 class="font-extrabold text-lg sm:text-xl text-slate-900">Composición de la Asamblea</h3>
+                   <span class="text-xs text-slate-500 uppercase tracking-wide font-bold">Proyección Departamental</span>
                 </div>
-                <div class="news-grid">
-                    <article class="news-card">
-                        <span class="news-card__tag" data-i18n="news.card1.tag">Foro Internacional</span>
-                        <h3 data-i18n="news.card1.title">Diálogo regional sobre Estado de Derecho y transformación digital</h3>
-                        <time data-i18n="news.card1.date">15 de junio 2024</time>
-                        <p data-i18n="news.card1.description">Expertos de 10 países compartirán buenas prácticas en justicia digital y participación ciudadana.</p>
-                        <a class="link" href="#contacto" data-i18n="news.card1.cta">Reservar plaza</a>
-                    </article>
-                    <article class="news-card">
-                        <span class="news-card__tag" data-i18n="news.card2.tag">Investigación</span>
-                        <h3 data-i18n="news.card2.title">Publicación del índice de transparencia municipal</h3>
-                        <time data-i18n="news.card2.date">28 de mayo 2024</time>
-                        <p data-i18n="news.card2.description">El laboratorio de políticas públicas presenta resultados y recomendaciones para gobiernos locales.</p>
-                        <a class="link" href="#contacto" data-i18n="news.card2.cta">Descargar resumen ejecutivo</a>
-                    </article>
-                    <article class="news-card">
-                        <span class="news-card__tag" data-i18n="news.card3.tag">Vida Estudiantil</span>
-                        <h3 data-i18n="news.card3.title">Delegación UAGRM gana premio en Modelo ONU de Washington</h3>
-                        <time data-i18n="news.card3.date">2 de abril 2024</time>
-                        <p data-i18n="news.card3.description">Reconocimiento a la mejor estrategia diplomática y documento de posición.</p>
-                        <a class="link" href="#contacto" data-i18n="news.card3.cta">Leer crónica completa</a>
-                    </article>
-                </div>
-            </div>
-        </section>
-
-        <section class="section section--accent" id="admisiones">
-            <div class="container two-columns">
-                <div>
-                    <div class="section__header">
-                        <span class="section__eyebrow" data-i18n="admissions.eyebrow">Proceso 2024</span>
-                        <h2 data-i18n="admissions.title">Admisiones y becas</h2>
-                        <p data-i18n="admissions.description">Te acompañamos en cada etapa de tu postulación. Accede a becas por excelencia académica, liderazgo y proyectos de impacto social.</p>
+                
+                <div class="w-full relative flex justify-center items-end max-w-full overflow-hidden" style="height: 35vh; min-height: 250px; sm:min-height: 350px;">
+                    <canvas id="parliamentCanvas" class="w-full h-full object-contain z-10"></canvas>
+                    
+                    <div id="center-info" class="absolute bottom-2 sm:bottom-10 text-center z-0 opacity-0 transition-opacity duration-500 pointer-events-none">
+                        <div id="total-seats-number" class="text-4xl sm:text-6xl font-black text-slate-800 tracking-tighter drop-shadow-sm">0</div>
+                        <div class="text-[10px] sm:text-xs font-bold text-slate-400 uppercase tracking-widest mt-1">Total Escaños</div>
                     </div>
-                    <ol class="steps">
-                        <li>
-                            <h3 data-i18n="admissions.step1.title">1. Orientación vocacional personalizada</h3>
-                            <p data-i18n="admissions.step1.description">Agenda una reunión con nuestros asesores y descubre el programa ideal para ti.</p>
-                        </li>
-                        <li>
-                            <h3 data-i18n="admissions.step2.title">2. Postulación en línea</h3>
-                            <p data-i18n="admissions.step2.description">Completa tu solicitud, adjunta documentos y programa tu entrevista virtual.</p>
-                        </li>
-                        <li>
-                            <h3 data-i18n="admissions.step3.title">3. Integración a la comunidad UAGRM</h3>
-                            <p data-i18n="admissions.step3.description">Participa en el bootcamp de bienvenida, mentorías y actividades de networking.</p>
-                        </li>
-                    </ol>
                 </div>
-                <form class="form-card" id="admissions-form" novalidate>
-                    <h3 data-i18n="admissions.form.title">Agenda una cita informativa</h3>
-                    <label for="name" data-i18n="admissions.form.nameLabel">Nombre completo</label>
-                    <input type="text" id="name" name="name" required placeholder="Ej. Carla Fernández" data-i18n-placeholder="admissions.form.namePlaceholder">
-                    <label for="program" data-i18n="admissions.form.programLabel">Programa de interés</label>
-                    <select id="program" name="program" required data-i18n-placeholder="admissions.form.programPlaceholder">
-                        <option value="" selected hidden data-i18n="admissions.form.programPlaceholder">Selecciona una opción</option>
-                        <option value="law" data-i18n="admissions.form.optionLaw">Derecho</option>
-                        <option value="politics" data-i18n="admissions.form.optionPolitics">Ciencias Políticas y Gestión Pública</option>
-                        <option value="ir" data-i18n="admissions.form.optionIR">Relaciones Internacionales</option>
-                        <option value="postgrad" data-i18n="admissions.form.optionPostgrad">Posgrado</option>
-                    </select>
-                    <label for="email" data-i18n="admissions.form.emailLabel">Correo institucional o personal</label>
-                    <input type="email" id="email" name="email" required placeholder="Ej. nombre@correo.com" data-i18n-placeholder="admissions.form.emailPlaceholder">
-                    <label for="message" data-i18n="admissions.form.messageLabel">Mensaje</label>
-                    <textarea id="message" name="message" rows="3" placeholder="Cuéntanos tus expectativas" data-i18n-placeholder="admissions.form.messagePlaceholder"></textarea>
-                    <button type="submit" class="btn primary" data-i18n="admissions.form.submit">Solicitar información</button>
-                    <p class="form-card__feedback" role="status" aria-live="polite"></p>
-                </form>
-            </div>
-        </section>
 
-        <section class="section" id="alianzas">
-            <div class="container">
-                <div class="section__header">
-                    <span class="section__eyebrow" data-i18n="alliances.eyebrow">Colaboraciones</span>
-                    <h2 data-i18n="alliances.title">Alianzas estratégicas</h2>
-                    <p data-i18n="alliances.description">Colaboramos con instituciones que potencian experiencias académicas, prácticas profesionales y proyectos de impacto global.</p>
-                </div>
-                <div class="alliances-grid">
-                    <article class="alliance-card">
-                        <h3 data-i18n="alliances.card1.title">Organismos multilaterales</h3>
-                        <p data-i18n="alliances.card1.description">Convenios con la OEA, CAF y PNUD para pasantías, investigación aplicada y foros regionales.</p>
-                    </article>
-                    <article class="alliance-card">
-                        <h3 data-i18n="alliances.card2.title">Sector público</h3>
-                        <p data-i18n="alliances.card2.description">Programas de asistencia técnica para ministerios, asambleas departamentales y gobiernos municipales.</p>
-                    </article>
-                    <article class="alliance-card">
-                        <h3 data-i18n="alliances.card3.title">Empresas y ONG</h3>
-                        <p data-i18n="alliances.card3.description">Prácticas profesionales y clínicas sociales con empresas de impacto y organizaciones de derechos humanos.</p>
-                    </article>
-                </div>
-            </div>
-        </section>
-
-        <section class="section section--alt" id="contacto">
-            <div class="container two-columns">
-                <div>
-                    <div class="section__header">
-                        <span class="section__eyebrow" data-i18n="contact.eyebrow">Conversemos</span>
-                        <h2 data-i18n="contact.title">Contacto e información</h2>
-                        <p data-i18n="contact.description">Estamos listos para acompañarte en tu proceso de formación y vinculación con nuestra comunidad académica.</p>
+                <div id="placeholder-state" class="absolute inset-0 flex flex-col items-center justify-center bg-white/95 z-20 backdrop-blur-sm">
+                    <div class="h-20 w-20 rounded-full bg-slate-50 flex items-center justify-center mb-4 ring-1 ring-slate-200 shadow-inner">
+                        <i class="fa-solid fa-chart-pie text-4xl text-slate-300"></i>
                     </div>
-                    <ul class="contact-list">
-                        <li>
-                            <span>📍</span>
-                            <div>
-                                <strong data-i18n="contact.addressLabel">Dirección</strong>
-                                <p data-i18n="contact.address">Campus Universitario, Av. Centenario, Santa Cruz de la Sierra</p>
+                    <p class="text-slate-700 font-bold px-4 text-center text-sm sm:text-base">Sin datos proyectados</p>
+                    <p class="text-slate-400 text-xs mt-1">Presione "Procesar Escaños" para visualizar</p>
+                </div>
+             </div>
+
+             <!-- Tabla Resumen -->
+             <div id="results-card" class="card-base hidden animate-fade-in w-full overflow-x-hidden border-t-4 border-t-brand-fuchsia">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="font-extrabold text-lg text-slate-800">Resumen de Asignación</h3>
+                </div>
+                <div class="overflow-x-auto rounded-xl border border-slate-200 shadow-sm">
+                   <table class="min-w-full text-sm text-left">
+                      <thead class="bg-slate-50 text-slate-600 font-bold text-xs uppercase border-b border-slate-200">
+                         <tr>
+                            <th class="px-4 py-3 whitespace-nowrap">Fuerza Política</th>
+                            <th class="px-4 py-3 text-right">Votos</th>
+                            <th class="px-4 py-3 text-right text-brand-fuchsia bg-fuchsia-50/50">Poblacionales</th>
+                            <th class="px-4 py-3 text-right text-brand-orange bg-orange-50/50">Territoriales</th>
+                            <th class="px-4 py-3 text-right text-slate-900 bg-slate-100/50 text-sm">TOTAL</th>
+                            <th class="px-4 py-3 text-center">Referencia</th>
+                         </tr>
+                      </thead>
+                      <tbody id="results-body" class="divide-y divide-slate-100 bg-white">
+                         <!-- Inyectado via JS -->
+                      </tbody>
+                   </table>
+                </div>
+             </div>
+
+             <!-- NUEVO: Matriz D'Hondt -->
+             <div id="matrix-card" class="card-base hidden animate-fade-in w-full overflow-x-hidden border border-fuchsia-200 bg-fuchsia-50/10">
+                 <div class="mb-4">
+                     <h3 class="font-extrabold text-lg text-slate-800 flex items-center gap-2">
+                        <i class="fa-solid fa-calculator text-brand-fuchsia"></i>
+                        Matriz de Distribución (D'Hondt)
+                     </h3>
+                     <p class="text-xs text-slate-500 mt-1 font-medium">
+                         Explicación matemática de los <strong>8 escaños poblacionales</strong>. Los cocientes ganadores están resaltados e indican el orden de asignación.
+                     </p>
+                 </div>
+                 
+                 <div class="overflow-x-auto custom-scrollbar rounded-xl border border-slate-200 bg-white shadow-sm">
+                     <table class="min-w-full text-sm text-left border-collapse">
+                         <thead id="matrix-head">
+                             <!-- Header JS -->
+                         </thead>
+                         <tbody id="matrix-body">
+                             <!-- Body JS -->
+                         </tbody>
+                     </table>
+                 </div>
+             </div>
+
+          </div>
+       </div>
+    </section>
+
+  </main>
+
+ <footer class="bg-slate-900 text-slate-400 py-8 border-t border-slate-800 mt-auto">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+      <div class="flex items-center gap-3">
+         <img src="https://i.imgur.com/jt9pdBM.png" alt="Logo" class="h-8 object-contain brightness-0 invert opacity-50" />
+         <div>
+             <span class="font-bold text-sm text-slate-300 block">Centro de Monitoreo Electoral</span>
+             <span class="text-xs">Uso Interno — Creemos</span>
+         </div>
+      </div>
+      <div class="text-xs text-slate-500 text-center md:text-right">
+        Generado en tiempo real.<br>
+        &copy; <span id="year"></span> Todos los derechos reservados.
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+    document.getElementById('year').innerText = new Date().getFullYear();
+
+    // --- State Management ---
+    const state = {
+        mode: 'gobernacion', // Forzamos Gobernación por defecto
+        candidates: [], 
+        // Colores priorizados: Fucsia, Naranja, Azul, Verde, etc.
+        colors: [
+            '#c026d3', '#f97316', '#1E40AF', '#15803D', '#F59E0B', 
+            '#dc2626', '#0F766E', '#374151', '#854D0E', '#6B21A8'
+        ],
+        colorIdx: 0
+    };
+
+    const initialParties = [
+        { name: 'CREEMOS-PATRIA', color: '#c026d3' },
+        { name: 'DEMOCRATAS', color: '#16a34a' },
+        { name: 'SPT', color: '#dc2626' },
+        { name: 'A-UPP', color: '#f59e0b' },
+        { name: 'FE', color: '#2563eb' },
+        { name: 'LIBRE', color: '#0891b2' },
+        { name: 'MTS', color: '#4f46e5' },
+        { name: 'NGP', color: '#ea580c' },
+        { name: 'PDC', color: '#059669' },
+        { name: 'PSC', color: '#7c3aed' },
+        { name: 'TODOS', color: '#475569' }
+    ];
+
+    function initPreloaded() {
+        state.candidates = initialParties.map((p, i) => ({
+            id: i + 1,
+            name: p.name,
+            percent: 0,
+            color: p.color,
+            terr_wins: 0
+        }));
+        state.colorIdx = initialParties.length;
+    }
+
+    // Inicializar app
+    window.onload = () => {
+        initPreloaded();
+        setMode('gobernacion');
+        renderList();
+    };
+
+    function setMode(mode) {
+        state.mode = mode;
+        // Solo renderizamos Gobernación porque es lo pertinente al contexto
+        document.getElementById('gob-info').classList.remove('hidden');
+        document.getElementById('territorial-section').classList.remove('hidden');
+        renderTerritorialInputs();
+    }
+
+    function addCandidate() {
+        document.getElementById('input-error').classList.add('hidden');
+
+        const nameInput = document.getElementById('cand-name');
+        const percentInput = document.getElementById('cand-percent');
+        
+        const name = nameInput.value.trim().toUpperCase();
+        const percent = parseFloat(percentInput.value);
+
+        if(!name) { nameInput.focus(); return; }
+        if(isNaN(percent) || percent <= 0) { percentInput.focus(); return; }
+
+        const currentSum = state.candidates.reduce((a,b)=>a+b.percent,0);
+        
+        if(currentSum + percent > 100) {
+            const disponible = (100 - currentSum).toFixed(2);
+            const exceed = ((currentSum + percent) - 100).toFixed(2);
+            const errorDiv = document.getElementById('input-error');
+            const errorDetail = document.getElementById('error-detail');
+            errorDetail.innerHTML = `Espacio disponible: <strong>${disponible}%</strong>. Excedente: <strong>${exceed}%</strong>.`;
+            errorDiv.classList.remove('hidden');
+            errorDiv.classList.remove('animate-shake');
+            void errorDiv.offsetWidth; 
+            errorDiv.classList.add('animate-shake');
+            return;
+        }
+
+        state.candidates.push({
+            id: Date.now(),
+            name,
+            percent,
+            color: state.colors[state.colorIdx % state.colors.length],
+            terr_wins: 0
+        });
+        state.colorIdx++;
+
+        nameInput.value = '';
+        percentInput.value = '';
+        nameInput.focus();
+        
+        renderList();
+        renderTerritorialInputs();
+    }
+
+    function updatePercent(id, val) {
+        const c = state.candidates.find(x => x.id === id);
+        if(c) {
+            c.percent = parseFloat(val) || 0;
+            updateTotalDisplay();
+        }
+    }
+
+    function updateTotalDisplay() {
+        const sum = state.candidates.reduce((a,b)=>a+b.percent,0);
+        const totalDisplay = document.getElementById('total-percent-display');
+        const formattedSum = sum % 1 === 0 ? sum : sum.toFixed(2);
+        totalDisplay.innerText = `${formattedSum}%`;
+        
+        const errorDiv = document.getElementById('input-error');
+        if(sum > 100) {
+            totalDisplay.className = "text-xs font-bold text-rose-600 animate-pulse bg-rose-100 px-2 py-1 rounded";
+            const exceed = (sum - 100).toFixed(2);
+            document.getElementById('error-detail').innerHTML = `La suma es ${sum.toFixed(2)}%. Excedente: <strong>${exceed}%</strong>.`;
+            errorDiv.classList.remove('hidden');
+        } else {
+            if(sum === 100) {
+                totalDisplay.className = "text-xs font-bold text-white bg-emerald-500 px-2 py-1 rounded";
+            } else {
+                totalDisplay.className = "text-xs font-bold text-slate-600 bg-slate-200 px-2 py-1 rounded";
+            }
+            errorDiv.classList.add('hidden');
+        }
+    }
+
+    function renderList() {
+        const tbody = document.getElementById('candidates-list');
+        tbody.innerHTML = '';
+
+        if(state.candidates.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="3" class="p-4 text-center text-slate-400 text-xs italic">Añade partidos para comenzar</td></tr>`;
+        } else {
+            state.candidates.forEach(c => {
+                tbody.innerHTML += `
+                    <tr class="group hover:bg-slate-50 transition">
+                        <td class="px-3 py-3 text-xs font-bold text-slate-700 flex items-center gap-2">
+                            <span class="w-3 h-3 rounded-full shadow-sm" style="background-color:${c.color}"></span>
+                            ${c.name}
+                        </td>
+                        <td class="px-3 py-2 text-right">
+                            <input type="number" step="0.01" min="0" max="100" value="${c.percent || ''}" placeholder="0.00"
+                                oninput="updatePercent(${c.id}, this.value)"
+                                class="w-20 sm:w-24 text-sm p-1.5 border border-slate-200 rounded-md text-right focus:border-brand-fuchsia focus:ring-1 focus:ring-brand-fuchsia outline-none bg-white font-bold text-brand-fuchsia shadow-inner transition-colors">
+                        </td>
+                        <td class="px-2 py-3 text-right">
+                            <button onclick="removeCandidate(${c.id})" class="text-slate-300 hover:text-rose-500 transition">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+        updateTotalDisplay();
+    }
+
+    function renderTerritorialInputs() {
+        const container = document.getElementById('territorial-inputs');
+        container.innerHTML = '';
+        
+        if(state.candidates.length === 0) {
+            container.innerHTML = '<p class="text-xs italic text-slate-400 text-center bg-slate-50 p-3 rounded-lg border border-dashed border-slate-200">Esperando ingreso de datos...</p>';
+            updateTerrSum();
+            return;
+        }
+
+        state.candidates.forEach(c => {
+            container.innerHTML += `
+                <div class="flex items-center justify-between bg-white p-2.5 rounded-lg border border-slate-200 shadow-sm hover:border-brand-orange transition-colors">
+                    <span class="text-xs font-bold text-slate-700 truncate w-1/2 flex items-center gap-2">
+                        <span class="w-2.5 h-2.5 rounded-full" style="background-color:${c.color}"></span>
+                        ${c.name}
+                    </span>
+                    <div class="flex items-center gap-2">
+                         <span class="text-[10px] uppercase text-slate-400 font-bold">Prov.</span>
+                         <input type="number" min="0" max="15" value="${c.terr_wins}" 
+                           onchange="updateTerrWins(${c.id}, this.value)"
+                           class="w-16 text-sm p-1.5 border rounded-md text-right focus:border-brand-orange focus:ring-1 focus:ring-brand-orange outline-none bg-slate-50 font-bold text-brand-orange shadow-inner">
+                    </div>
+                </div>
+            `;
+        });
+        updateTerrSum();
+    }
+
+    function updateTerrWins(id, val) {
+        const c = state.candidates.find(x => x.id === id);
+        if(c) c.terr_wins = parseInt(val) || 0;
+        updateTerrSum();
+    }
+
+    function updateTerrSum() {
+        const sum = state.candidates.reduce((a,b)=>a+(b.terr_wins||0),0);
+        const disp = document.getElementById('terr-sum-display');
+        disp.innerText = `${sum} / 15 Provincias Asignadas`;
+        if(sum > 15) {
+            disp.className = "mt-4 pt-3 border-t border-rose-200 text-right text-xs font-bold text-rose-600 bg-rose-50 px-3 py-2 rounded-lg animate-pulse";
+        } else if (sum === 15) {
+            disp.className = "mt-4 pt-3 border-t border-emerald-200 text-right text-xs font-bold text-emerald-700 bg-emerald-50 px-3 py-2 rounded-lg";
+        } else {
+            disp.className = "mt-4 pt-3 border-t border-orange-100 text-right text-xs font-bold text-brand-orange bg-orange-50 px-3 py-2 rounded-lg";
+        }
+    }
+
+    // Algoritmo D'Hondt Modificado para generar Matriz
+    function dhondtWithMatrix(candidates, seats) {
+        let allQuotients = [];
+        candidates.forEach(c => {
+            for(let i=1; i<=seats; i++) {
+                allQuotients.push({
+                    candidateId: c.id,
+                    divisor: i,
+                    value: c.percent / i,
+                    isWinner: false,
+                    seatNumber: null
+                });
+            }
+        });
+
+        // Ordenar descendentemente
+        allQuotients.sort((a, b) => b.value - a.value);
+
+        // Marcar ganadores
+        for(let i=0; i<seats; i++) {
+            if(allQuotients[i]) {
+                allQuotients[i].isWinner = true;
+                allQuotients[i].seatNumber = i + 1; // Escaño 1, 2, 3...
+            }
+        }
+
+        // Conteo final
+        let allocation = {};
+        candidates.forEach(c => allocation[c.id] = 0);
+        for(let i=0; i<seats; i++) {
+            if(allQuotients[i]) {
+                allocation[allQuotients[i].candidateId]++;
+            }
+        }
+
+        return { allocation, matrixData: allQuotients };
+    }
+
+    function simulate() {
+        const activeCandidates = state.candidates.filter(c => c.percent > 0 || c.terr_wins > 0);
+        
+        if(activeCandidates.length === 0) {
+            alert("Por favor, ingrese al menos un porcentaje de votos o provincia ganada.");
+            return;
+        }
+
+        document.getElementById('input-error').classList.add('hidden');
+        
+        const terrSum = activeCandidates.reduce((a,b)=>a+(b.terr_wins||0),0);
+        if(terrSum > 15) { 
+            alert("Error: Se han asignado más de 15 escaños territoriales en total."); 
+            return; 
+        }
+
+        // 8 Poblacionales para Gobernación SCZ
+        const POP_SEATS = 8;
+        const resultData = dhondtWithMatrix(activeCandidates, POP_SEATS);
+        const distrib = resultData.allocation;
+        
+        let results = activeCandidates.map(c => ({
+            ...c,
+            pop: distrib[c.id] || 0,
+            terr: c.terr_wins || 0,
+            total: (distrib[c.id] || 0) + (c.terr_wins || 0)
+        }));
+        
+        const totalSeats = 28; // 8 Pop + 15 Terr + 5 Indigena
+
+        // Actualizar UI
+        document.getElementById('placeholder-state').classList.add('hidden');
+        document.getElementById('center-info').classList.remove('opacity-0');
+        document.getElementById('results-card').classList.remove('hidden');
+        
+        // Animación de contador
+        const totalEl = document.getElementById('total-seats-number');
+        let currentCount = 0;
+        const interval = setInterval(() => {
+            currentCount++;
+            totalEl.innerText = currentCount;
+            if(currentCount >= totalSeats) clearInterval(interval);
+        }, 20);
+
+        renderResultsTable(results);
+        renderDhondtMatrix(resultData.matrixData, activeCandidates, POP_SEATS);
+
+        // Generar lista para gráfico
+        let seatList = [];
+        
+        // 5 Indígenas Fijos
+        for(let i = 0; i < 5; i++) {
+            seatList.push({color: '#64748b', name: 'Indígena'});
+        }
+
+        // Asignados
+        results.forEach(r => {
+            for(let i=0; i<r.total; i++) {
+                seatList.push({color: r.color, name: r.name});
+            }
+        });
+        
+        // Rellenar Vacantes
+        while(seatList.length < totalSeats) {
+             seatList.push({color: '#e2e8f0', name: 'Vacante'});
+        }
+
+        // Orden de visualización en semicírculo
+        seatList.sort((a,b) => {
+             if(a.name === 'Indígena') return -1;
+             if(b.name === 'Indígena') return 1;
+             if(a.name === 'Vacante') return 1;
+             if(b.name === 'Vacante') return -1;
+             return a.name.localeCompare(b.name); 
+        });
+
+        drawParliamentResponsive(seatList);
+    }
+
+    function renderResultsTable(results) {
+        const tbody = document.getElementById('results-body');
+        tbody.innerHTML = '';
+        
+        // Fila fija Indígenas
+        tbody.innerHTML += `
+            <tr class="bg-slate-50/50">
+                <td class="px-4 py-3 font-bold text-slate-600 text-xs uppercase tracking-wide">Pueblos Indígenas</td>
+                <td class="px-4 py-3 text-right text-slate-400 font-mono">-</td>
+                <td class="px-4 py-3 text-right text-slate-400 font-mono bg-fuchsia-50/30">-</td>
+                <td class="px-4 py-3 text-right text-slate-400 font-mono bg-orange-50/30">-</td>
+                <td class="px-4 py-3 text-right font-black text-slate-800 bg-slate-100/50 text-base">5</td>
+                <td class="px-4 py-3 flex justify-center"><span class="w-3.5 h-3.5 rounded-full bg-slate-500 shadow-sm mt-1"></span></td>
+            </tr>
+        `;
+
+        results.sort((a,b) => b.total - a.total).forEach(r => {
+             tbody.innerHTML += `
+                <tr class="hover:bg-slate-50 transition-colors">
+                    <td class="px-4 py-3 font-extrabold text-slate-900 whitespace-nowrap text-sm">${r.name}</td>
+                    <td class="px-4 py-3 text-right text-slate-500 font-mono font-bold text-xs">${r.percent}%</td>
+                    <td class="px-4 py-3 text-right text-brand-fuchsia font-black text-sm bg-fuchsia-50/30">${r.pop}</td>
+                    <td class="px-4 py-3 text-right text-brand-orange font-black text-sm bg-orange-50/30">${r.terr}</td>
+                    <td class="px-4 py-3 text-right font-black text-lg text-slate-900 bg-slate-100/50">${r.total}</td>
+                    <td class="px-4 py-3 flex justify-center">
+                        <span class="w-3.5 h-3.5 rounded-full shadow-sm mt-1.5" style="background-color:${r.color}"></span>
+                    </td>
+                </tr>
+             `;
+        });
+    }
+
+    function renderDhondtMatrix(matrixData, candidates, seats) {
+        const container = document.getElementById('matrix-card');
+        const thead = document.getElementById('matrix-head');
+        const tbody = document.getElementById('matrix-body');
+
+        container.classList.remove('hidden');
+
+        // Render Header
+        let headHtml = `<tr><th class="px-3 py-3 text-center bg-slate-100 border-b border-slate-200 text-slate-500 uppercase text-xs w-24">Divisor</th>`;
+        candidates.forEach(c => {
+            headHtml += `<th class="px-3 py-3 text-center bg-white border-b border-slate-200 font-bold uppercase text-xs" style="color:${c.color}">${c.name}</th>`;
+        });
+        headHtml += `</tr>`;
+        thead.innerHTML = headHtml;
+
+        // Render Body
+        let bodyHtml = '';
+        for(let i = 1; i <= seats; i++) {
+            bodyHtml += `<tr><td class="px-3 py-3 border-b border-slate-100 font-black text-slate-400 bg-slate-50 text-center text-sm">÷ ${i}</td>`;
+
+            candidates.forEach(c => {
+                const q = matrixData.find(x => x.candidateId === c.id && x.divisor === i);
+                if(q) {
+                    if(q.isWinner) {
+                        bodyHtml += `
+                        <td class="px-3 py-2 border-b border-slate-200 text-center bg-fuchsia-50/60 align-middle">
+                            <div class="flex flex-col items-center justify-center">
+                                <div class="font-black text-brand-fuchsia text-sm tracking-tight">${q.value.toFixed(2)}</div>
+                                <span class="text-[9px] bg-gradient-to-r from-brand-fuchsia to-brand-pink text-white px-2 py-0.5 rounded shadow-sm font-bold uppercase mt-1">Escaño ${q.seatNumber}</span>
                             </div>
-                        </li>
-                        <li>
-                            <span>☎️</span>
-                            <div>
-                                <strong data-i18n="contact.phoneLabel">Teléfonos</strong>
-                                <p>+591 3 336 1234 · +591 3 336 5678</p>
-                            </div>
-                        </li>
-                        <li>
-                            <span>✉️</span>
-                            <div>
-                                <strong data-i18n="contact.emailLabel">Correo</strong>
-                                <p>facultad.juridicas@uagrm.edu.bo</p>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-                <div class="map-card">
-                    <h3 data-i18n="contact.mapTitle">Visítanos en la UAGRM</h3>
-                    <p data-i18n="contact.mapDescription">La Facultad se ubica junto al boulevard central y cuenta con acceso a bibliotecas, laboratorios multimedia y salas de audiencias simuladas.</p>
-                    <a class="btn outline" href="https://www.google.com/maps/place/Universidad+Aut%C3%B3noma+Gabriel+Ren%C3%A9+Moreno" target="_blank" rel="noopener" data-i18n="contact.mapCta">Ver mapa interactivo</a>
-                </div>
-            </div>
-        </section>
-    </main>
+                        </td>`;
+                    } else {
+                        bodyHtml += `
+                        <td class="px-3 py-3 border-b border-slate-100 text-center text-slate-400 font-mono text-xs align-middle">
+                            ${q.value.toFixed(2)}
+                        </td>`;
+                    }
+                } else {
+                    bodyHtml += `<td class="px-3 py-3 border-b border-slate-100"></td>`;
+                }
+            });
+            bodyHtml += `</tr>`;
+        }
+        tbody.innerHTML = bodyHtml;
+    }
 
-    <footer class="site-footer">
-        <div class="container footer-layout">
-            <p data-i18n="footer.rights">© <span id="current-year"></span> Facultad de Ciencias Jurídicas, Políticas, Sociales y Relaciones Internacionales · UAGRM</p>
-            <nav aria-label="Redes sociales">
-                <ul class="social-links">
-                    <li><a href="https://www.facebook.com" target="_blank" rel="noopener">Facebook</a></li>
-                    <li><a href="https://www.instagram.com" target="_blank" rel="noopener">Instagram</a></li>
-                    <li><a href="https://www.youtube.com" target="_blank" rel="noopener">YouTube</a></li>
-                </ul>
-            </nav>
-        </div>
-    </footer>
+    function drawParliamentResponsive(seatList) {
+        const canvas = document.getElementById('parliamentCanvas');
+        const container = canvas.parentElement;
+        const dpi = window.devicePixelRatio || 1;
+        const rect = container.getBoundingClientRect();
+        
+        canvas.width = rect.width * dpi;
+        canvas.height = rect.height * dpi;
+        
+        const ctx = canvas.getContext('2d');
+        ctx.scale(dpi, dpi); 
+        
+        const W = rect.width;
+        const H = rect.height;
+        ctx.clearRect(0,0,W,H);
+        
+        if(seatList.length === 0) return;
 
-    <script src="assets/js/main.js"></script>
+        const margin = W < 400 ? 10 : 20;
+        const cx = W / 2;
+        const cy = H * 0.85; 
+        
+        const availableW = W - (margin * 2);
+        const availableH = H * 0.80; 
+        
+        const maxRadius = Math.min(availableW / 2, availableH); 
+        const minRadius = maxRadius * 0.45; 
+        
+        const count = seatList.length;
+        let rows = Math.ceil(Math.sqrt(count / 2.5)); 
+        if(rows < 3) rows = 3;
+        if(rows > 8) rows = 8;
+        
+        const radiusStep = (maxRadius - minRadius) / (rows - 1);
+        
+        let rowRadii = [];
+        let totalArcLen = 0;
+        for(let i=0; i<rows; i++) {
+            const r = minRadius + i * radiusStep;
+            rowRadii.push(r);
+            totalArcLen += r;
+        }
+        
+        let seatsPerRow = rowRadii.map(r => (r / totalArcLen) * count);
+        seatsPerRow = seatsPerRow.map(n => Math.round(n));
+        let allocated = seatsPerRow.reduce((a,b)=>a+b, 0);
+        let diff = count - allocated;
+        if(diff !== 0) seatsPerRow[seatsPerRow.length - 1] += diff;
+
+        const midR = (maxRadius + minRadius) / 2;
+        const midArcLength = Math.PI * midR;
+        const avgSeats = count / rows;
+        let dotRadius = (midArcLength / avgSeats) / 2.5; 
+        
+        if (W < 400) {
+            if(dotRadius > 9) dotRadius = 9;
+            if(dotRadius < 4) dotRadius = 4;
+        } else {
+            if(dotRadius < 5) dotRadius = 5;
+            if(dotRadius > 15) dotRadius = 15;
+        }
+
+        let currentSeat = 0;
+        for(let i=0; i<rows; i++) {
+            const r = rowRadii[i];
+            const n = seatsPerRow[i];
+            if(n <= 0) continue;
+            
+            const anglePadding = (dotRadius * 1.8) / r;
+            const availableAngle = Math.PI - 2*anglePadding;
+            const angleStep = n > 1 ? availableAngle / (n - 1) : 0;
+            
+            for(let j=0; j<n; j++) {
+                if(currentSeat >= count) break;
+                const angle = Math.PI - anglePadding - (j * angleStep);
+                const x = cx + r * Math.cos(angle);
+                const y = cy - r * Math.sin(angle);
+                const color = seatList[currentSeat].color;
+                
+                ctx.beginPath();
+                ctx.arc(x, y, dotRadius, 0, Math.PI*2);
+                ctx.fillStyle = color;
+                ctx.fill();
+                ctx.lineWidth = 1.5;
+                ctx.strokeStyle = '#ffffff';
+                ctx.stroke();
+
+                currentSeat++;
+            }
+        }
+    }
+
+    function resetApp(askConfirm = true) {
+        if(askConfirm && !confirm("¿Seguro que desea limpiar la pizarra?")) return;
+
+        initPreloaded(); // Recargar la lista de candidatos predeterminados en 0
+        renderList();
+        renderTerritorialInputs();
+        document.getElementById('input-error').classList.add('hidden');
+        document.getElementById('results-card').classList.add('hidden');
+        document.getElementById('matrix-card').classList.add('hidden');
+        document.getElementById('placeholder-state').classList.remove('hidden');
+        document.getElementById('center-info').classList.add('opacity-0');
+        const canvas = document.getElementById('parliamentCanvas');
+        const ctx = canvas.getContext('2d');
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+    }
+    
+    window.addEventListener('resize', () => {
+        if(!document.getElementById('results-card').classList.contains('hidden')) {
+            simulate(); 
+        }
+    });
+
+</script>
 </body>
 </html>
